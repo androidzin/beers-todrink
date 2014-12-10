@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">1001Beers to Drink Before You Die</string>
+    <string name="title_beer_detail">Beer Detail</string>
+
+    <!-- TESTES -->
+    <string name="beer_about">Duvel is a natural beer with a subtle bitterness, a refined flavour and a distinctive hop character. The unique brewing process, which takes about 90 days, guarantees a pure character, delicate effervescence and a pleasant sweet taste of alcohol.</string>
+
+</resources>
