@@ -40,8 +40,12 @@ android {
 
 
 dependencies {
+
+    androidTestCompile 'junit:junit:4.+'
+
     apt 'org.androidannotations:androidannotations:3.2'
     compile 'org.androidannotations:androidannotations-api:3.2'
+    compile 'com.github.provigen:ProviGen-lib:2.0.+'
     compile 'com.android.support:appcompat-v7:21.0.2'
     compile 'com.android.support:support-v4:21.0.2'
     compile fileTree(include: ['*.jar'], dir: 'libs')
