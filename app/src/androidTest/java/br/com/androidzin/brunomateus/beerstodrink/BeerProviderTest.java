@@ -16,7 +16,7 @@ import static br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract.*
 /**
  * Created by bruno on 11/12/14.
  */
-public class BeerProviderTest extends ProviderTestCase2<BeerProvider> {
+public class BeerProviderTest extends ProviderTestCase2<BeerProviderSimple> {
 
     private MockContentResolver mMockContentResolver;
 
@@ -33,7 +33,7 @@ public class BeerProviderTest extends ProviderTestCase2<BeerProvider> {
     };
 
     public BeerProviderTest(){
-        super(BeerProvider.class, BeerContract.AUTHORITY);
+        super(BeerProviderSimple.class, BeerContract.AUTHORITY);
     }
 
 
