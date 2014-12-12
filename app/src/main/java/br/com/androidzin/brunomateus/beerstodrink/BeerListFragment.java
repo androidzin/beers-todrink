@@ -5,14 +5,21 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
+
+import org.androidannotations.annotations.EFragment;
 
 import br.com.androidzin.brunomateus.beerstodrink.adapter.BeerAdapter;
 import br.com.androidzin.brunomateus.beerstodrink.model.Beer;
@@ -27,7 +34,7 @@ import static br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract.B
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class BeerListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class BeerListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -47,15 +54,9 @@ public class BeerListFragment extends ListFragment implements LoaderManager.Load
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
 
+    private RecyclerView mRecyclerView;
+
     private BeerAdapter mAdapter;
-
-    private String[] mFromColumns = {
-            BeerColumns.BEER_NAME
-    };
-
-    private int[] mToFields = {
-            android.R.id.text1
-    };
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -115,37 +116,26 @@ public class BeerListFragment extends ListFragment implements LoaderManager.Load
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1){
-            mAdapter = new BeerAdapter(getActivity(), null);
-        } else {
-            mAdapter = new BeerAdapter(getActivity(), null, 0);
-        }
-
-
-        setListAdapter(mAdapter);
-
-
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        // Restore the previously serialized activated item position.
-        if (savedInstanceState != null
-                && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
-            setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
-        }
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         getLoaderManager().initLoader(URL_LOADER, null, this);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_beer_list, container, true);
+
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.beer_recycler_list);
+
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new BeerAdapter(getActivity(), null);
+        mRecyclerView.setAdapter(mAdapter);
+
+        return view;
     }
 
     @Override
@@ -167,7 +157,7 @@ public class BeerListFragment extends ListFragment implements LoaderManager.Load
         // Reset the active callbacks interface to the dummy implementation.
         mCallbacks = sDummyCallbacks;
     }
-
+/*
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);
@@ -175,7 +165,7 @@ public class BeerListFragment extends ListFragment implements LoaderManager.Load
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
         mCallbacks.onItemSelected(String.valueOf(mAdapter.getItemId(position)));
-    }
+    }*/
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -186,25 +176,4 @@ public class BeerListFragment extends ListFragment implements LoaderManager.Load
         }
     }
 
-    /**
-     * Turns on activate-on-click mode. When this mode is on, list items will be
-     * given the 'activated' state when touched.
-     */
-    public void setActivateOnItemClick(boolean activateOnItemClick) {
-        // When setting CHOICE_MODE_SINGLE, ListView will automatically
-        // give items the 'activated' state when touched.
-        getListView().setChoiceMode(activateOnItemClick
-                ? ListView.CHOICE_MODE_SINGLE
-                : ListView.CHOICE_MODE_NONE);
-    }
-
-    private void setActivatedPosition(int position) {
-        if (position == ListView.INVALID_POSITION) {
-            getListView().setItemChecked(mActivatedPosition, false);
-        } else {
-            getListView().setItemChecked(position, true);
-        }
-
-        mActivatedPosition = position;
-    }
 }
