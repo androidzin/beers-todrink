@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants">
+
+    <ImageView
+        android:id="@+id/beer_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/beer_sample" />
+
+    <TextView
+        android:id="@+id/beer_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <TextView
+        android:id="@+id/beer_abv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/beer_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+    <Button
+        android:id="@+id/drinked_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/beer_image"
+        android:drawableLeft="@drawable/beer_drinked"
+        android:background="@null"
+        android:gravity="left|center_vertical"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:text="@string/drink" />
+
+</RelativeLayout>

@@ -119,20 +119,9 @@ public class BeerListFragment extends ListFragment implements LoaderManager.Load
         super.onCreate(savedInstanceState);
 
         if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1){
-            mAdapter = new BeerAdapter(
-                    getActivity(),
-                    android.R.layout.simple_list_item_activated_1,
-                    null,
-                    mFromColumns,
-                    mToFields);
+            mAdapter = new BeerAdapter(getActivity(), null);
         } else {
-            mAdapter = new BeerAdapter(
-                    getActivity(),
-                    android.R.layout.simple_list_item_activated_1,
-                    null,
-                    mFromColumns,
-                    mToFields,
-                    0);
+            mAdapter = new BeerAdapter(getActivity(), null, 0);
         }
 
 
