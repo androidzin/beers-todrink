@@ -1,14 +1,22 @@
 package br.com.androidzin.brunomateus.beerstodrink;
 
 import android.app.Activity;
+import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 import android.widget.ListView;
 
-
-import br.com.androidzin.brunomateus.beerstodrink.dummy.DummyContent;
+import br.com.androidzin.brunomateus.beerstodrink.adapter.BeerAdapter;
+import br.com.androidzin.brunomateus.beerstodrink.model.Beer;
+import static br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract.BeerColumns;
 
 /**
  * A list fragment representing a list of Beers. This fragment
@@ -19,13 +27,14 @@ import br.com.androidzin.brunomateus.beerstodrink.dummy.DummyContent;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class BeerListFragment extends ListFragment {
+public class BeerListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     /**
      * The serialization (saved instance state) Bundle key representing the
      * activated item position. Only used on tablets.
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
+    private static final int URL_LOADER = 1;
 
     /**
      * The fragment's current callback object, which is notified of list item
@@ -37,6 +46,44 @@ public class BeerListFragment extends ListFragment {
      * The current activated item position. Only used on tablets.
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
+
+    private BeerAdapter mAdapter;
+
+    private String[] mFromColumns = {
+            BeerColumns.BEER_NAME
+    };
+
+    private int[] mToFields = {
+            android.R.id.text1
+    };
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        CursorLoader loader = null;
+        if(id == URL_LOADER){
+            loader = new CursorLoader(getActivity(),
+                    BeerColumns.CONTENT_URI,
+                    BeerColumns.ALL_PROJECTION,
+                    null,
+                    null,
+                    null);
+        }
+        return loader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1){
+            mAdapter.changeCursor(data);
+        } else {
+            mAdapter.swapCursor(data);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mAdapter.changeCursor(null);
+    }
 
     /**
      * A callback interface that all activities containing this fragment must
@@ -71,12 +118,27 @@ public class BeerListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                DummyContent.ITEMS));
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1){
+            mAdapter = new BeerAdapter(
+                    getActivity(),
+                    android.R.layout.simple_list_item_activated_1,
+                    null,
+                    mFromColumns,
+                    mToFields);
+        } else {
+            mAdapter = new BeerAdapter(
+                    getActivity(),
+                    android.R.layout.simple_list_item_activated_1,
+                    null,
+                    mFromColumns,
+                    mToFields,
+                    0);
+        }
+
+
+        setListAdapter(mAdapter);
+
+
     }
 
     @Override
@@ -88,6 +150,13 @@ public class BeerListFragment extends ListFragment {
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        getLoaderManager().initLoader(URL_LOADER, null, this);
     }
 
     @Override
@@ -116,7 +185,7 @@ public class BeerListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(String.valueOf(mAdapter.getItemId(position)));
     }
 
     @Override

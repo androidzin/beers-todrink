@@ -63,7 +63,7 @@ public class BeerListActivity extends FragmentActivity
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(BeerDetailFragment.ARG_ITEM_ID, id);
+            arguments.putString(BeerDetailFragment.BEER_ID, id);
             BeerDetailFragment fragment = new BeerDetailFragment_();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -74,7 +74,7 @@ public class BeerListActivity extends FragmentActivity
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, BeerDetailActivity.class);
-            detailIntent.putExtra(BeerDetailFragment.ARG_ITEM_ID, id);
+            detailIntent.putExtra(BeerDetailFragment.BEER_ID, id);
             startActivity(detailIntent);
         }
     }

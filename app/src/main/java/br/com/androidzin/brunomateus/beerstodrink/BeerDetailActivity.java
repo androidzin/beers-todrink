@@ -39,8 +39,8 @@ public class BeerDetailActivity extends ActionBarActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(BeerDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(BeerDetailFragment.ARG_ITEM_ID));
+            arguments.putString(BeerDetailFragment.BEER_ID,
+                    getIntent().getStringExtra(BeerDetailFragment.BEER_ID));
             BeerDetailFragment fragment = new BeerDetailFragment_();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
