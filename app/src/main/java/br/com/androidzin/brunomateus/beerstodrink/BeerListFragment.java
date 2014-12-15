@@ -31,7 +31,8 @@ import static br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract.B
  * 'activated' state upon selection. This helps indicate which item is
  * currently being viewed in a {@link BeerDetailFragment}.
  * <p/>
- * Activities containing this fragment MUST implement the {@link Callbacks}
+ * Activities containing this fragment MUST implement the
+ * {@link BeerAdapter.OnBeerCardClickListener}
  * interface.
  */
 public class BeerListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
@@ -47,7 +48,7 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
      * The fragment's current callback object, which is notified of list item
      * clicks.
      */
-    private Callbacks mCallbacks = sDummyCallbacks;
+    private BeerAdapter.OnBeerCardClickListener mCallbacks = sDummyCallbacks;
 
     /**
      * The current activated item position. Only used on tablets.
@@ -79,6 +80,7 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
         } else {
             mAdapter.swapCursor(data);
         }
+        mAdapter.setOnBeerCardListener(mCallbacks);
     }
 
     @Override
@@ -87,24 +89,15 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     /**
-     * A callback interface that all activities containing this fragment must
-     * implement. This mechanism allows activities to be notified of item
-     * selections.
+     * A dummy implementation of the {@link BeerAdapter.OnBeerCardClickListener}
+     * interface that does nothing. Used only when this fragment is not attached to an activity.
      */
-    public interface Callbacks {
-        /**
-         * Callback for when an item has been selected.
-         */
-        public void onItemSelected(String id);
-    }
+    private static BeerAdapter.OnBeerCardClickListener sDummyCallbacks =
+            new BeerAdapter.OnBeerCardClickListener() {
 
-    /**
-     * A dummy implementation of the {@link Callbacks} interface that does
-     * nothing. Used only when this fragment is not attached to an activity.
-     */
-    private static Callbacks sDummyCallbacks = new Callbacks() {
         @Override
-        public void onItemSelected(String id) {
+        public void onBeerSeleteced(String beerId) {
+
         }
     };
 
@@ -143,11 +136,11 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
         super.onAttach(activity);
 
         // Activities containing this fragment must implement its callbacks.
-        if (!(activity instanceof Callbacks)) {
+        if (!(activity instanceof BeerAdapter.OnBeerCardClickListener)) {
             throw new IllegalStateException("Activity must implement fragment's callbacks.");
         }
 
-        mCallbacks = (Callbacks) activity;
+        mCallbacks = (BeerAdapter.OnBeerCardClickListener) activity;
     }
 
     @Override
@@ -157,15 +150,6 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
         // Reset the active callbacks interface to the dummy implementation.
         mCallbacks = sDummyCallbacks;
     }
-/*
-    @Override
-    public void onListItemClick(ListView listView, View view, int position, long id) {
-        super.onListItemClick(listView, view, position, id);
-
-        // Notify the active callbacks interface (the activity, if the
-        // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(String.valueOf(mAdapter.getItemId(position)));
-    }*/
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

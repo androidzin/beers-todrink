@@ -84,7 +84,6 @@ public class BeerDetailFragment extends Fragment implements LoaderManager.Loader
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         data.moveToFirst();
         mItem = Beer.beerFromCursor(data);
-        data.close();
 
         Resources resources = getResources();
         beerName.setText(mItem.getName());

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 
+import br.com.androidzin.brunomateus.beerstodrink.adapter.BeerAdapter;
+
 
 /**
  * An activity representing a list of Beers. This activity
@@ -19,11 +21,11 @@ import android.support.v7.app.ActionBarActivity;
  * (if present) is a {@link BeerDetailFragment}.
  * <p/>
  * This activity also implements the required
- * {@link BeerListFragment.Callbacks} interface
+ * {@link BeerAdapter.OnBeerCardClickListener} interface
  * to listen for item selections.
  */
 public class BeerListActivity extends ActionBarActivity
-        implements BeerListFragment.Callbacks {
+        implements BeerAdapter.OnBeerCardClickListener {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -53,18 +55,14 @@ public class BeerListActivity extends ActionBarActivity
         // TODO: If exposing deep links into your app, handle intents here.
     }
 
-    /**
-     * Callback method from {@link BeerListFragment.Callbacks}
-     * indicating that the item with the given ID was selected.
-     */
     @Override
-    public void onItemSelected(String id) {
+    public void onBeerSeleteced(String beerId) {
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(BeerDetailFragment.BEER_ID, id);
+            arguments.putString(BeerDetailFragment.BEER_ID, beerId);
             BeerDetailFragment fragment = new BeerDetailFragment_();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -75,7 +73,7 @@ public class BeerListActivity extends ActionBarActivity
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, BeerDetailActivity.class);
-            detailIntent.putExtra(BeerDetailFragment.BEER_ID, id);
+            detailIntent.putExtra(BeerDetailFragment.BEER_ID, beerId);
             startActivity(detailIntent);
         }
     }
