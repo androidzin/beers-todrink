@@ -8,4 +8,10 @@
     <string name="beer_about">Duvel is a natural beer with a subtle bitterness, a refined flavour and a distinctive hop character. The unique brewing process, which takes about 90 days, guarantees a pure character, delicate effervescence and a pleasant sweet taste of alcohol.</string>
     <string name="drink">Drink</string>
 
+    <!-- Labels -->
+    <string name="label_country">Country:</string>
+    <string name="label_abv">ABV:</string>
+    <string name="label_release_date">Release Date:</string>
+    <string name="label_temperature_to_drink">Temperature To Drink:</string>
+
 </resources>

@@ -27,11 +27,37 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <TextView
-                android:id="@+id/beer_abv"
+                android:id="@+id/beer_release_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/beer_name"
+                android:layout_alignParentLeft="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <TextView
+                android:id="@+id/beer_country"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/beer_release_date"
+                android:layout_alignParentLeft="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <TextView
+                    android:id="@+id/beer_abv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/beer_country"
+                    android:layout_alignParentLeft="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <TextView
+                android:id="@+id/beer_temperature_to_drink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/beer_abv"
+                android:layout_alignParentLeft="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
 
             <Button
                 android:id="@+id/drinked_button"
