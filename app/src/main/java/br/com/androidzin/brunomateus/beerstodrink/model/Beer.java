@@ -16,14 +16,19 @@ public class Beer {
     private String temperatureToDrink;
     private String country;
     private String abv;
+    private String releaseDate;
+    private String color;
     private boolean drinked;
 
-    public Beer(String name, String country, String temperatureToDrink, float abv) {
+    private Beer(String name, String country, String temperatureToDrink, float abv,
+                 String releaseDate, String color) {
         this.drinked = false;
         this.name = name;
         this.temperatureToDrink = temperatureToDrink;
         this.country = country;
         this.abv = String.valueOf(abv).concat("%");
+        this.releaseDate = releaseDate;
+        this.color = color;
     }
 
     public String getName() {
@@ -63,6 +68,14 @@ public class Beer {
         setDrinked(drinked == 1 ? true : false);
     }
 
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
     public ContentValues getContentValues(){
         ContentValues values = new ContentValues();
         values.put(BeerColumns.BEER_NAME, getName());
@@ -70,6 +83,8 @@ public class Beer {
         values.put(BeerColumns.BEER_ABV, getAbv());
         values.put(BeerColumns.BEER_TEMPERATURE_TO_DRINK, getTemperatureToDrink());
         values.put(BeerColumns.BEER_DRINKED, isDrinkedInt());
+        values.put(BeerColumns.BEER_RELEASE_DATE, getReleaseDate());
+        values.put(BeerColumns.BEER_COLOR, getColor());
 
         return values;
     }
@@ -78,7 +93,9 @@ public class Beer {
         Beer beer = new Beer(data.getString(BeerColumns.Index.BEER_NAME),
                 data.getString(BeerColumns.Index.BEER_COUNTRY),
                 data.getString(BeerColumns.Index.BEER_DRINKED),
-                data.getFloat(BeerColumns.Index.BEER_ABV));
+                data.getFloat(BeerColumns.Index.BEER_ABV),
+                data.getString(BeerColumns.Index.BEER_RELEASE_DATE),
+                data.getString(BeerColumns.Index.BEER_COLOR));
 
         beer.id = data.getInt(BeerColumns.Index.BEER_ID);
         beer.setDrinked(data.getInt(BeerColumns.Index.BEER_DRINKED));

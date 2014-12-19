@@ -31,11 +31,17 @@ public final class BeerContract  {
         @Column(Column.Type.REAL)
         public static final String BEER_ABV = "abv";
 
+        @Column(Column.Type.TEXT)
+        public static final String BEER_RELEASE_DATE = "release_date";
+
+        @Column(Column.Type.TEXT)
+        public static final String BEER_COLOR = "color";
+
         @ContentUri
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BeerContract.CONTENT_URI, "beer");
 
         public static final String ALL_PROJECTION[] =  {_ID, BEER_NAME, BEER_COUNTRY, BEER_DRINKED,
-                BEER_TEMPERATURE_TO_DRINK, BEER_ABV};
+                BEER_TEMPERATURE_TO_DRINK, BEER_ABV, BEER_RELEASE_DATE, BEER_COLOR};
 
         public interface Index {
             int BEER_ID = 0;
@@ -44,6 +50,8 @@ public final class BeerContract  {
             int BEER_DRINKED = 3;
             int BEER_TEMPERATURE_TO_DRINK = 4;
             int BEER_ABV = 5;
+            int BEER_RELEASE_DATE = 6;
+            int BEER_COLOR = 7;
         }
 
 
