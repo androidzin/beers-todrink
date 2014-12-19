@@ -31,6 +31,10 @@ public class Beer {
         this.color = color;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
