@@ -15,6 +15,8 @@ public final class BeerContract  {
 
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
+    public static final String QUERY_BY_ID = "_id = ?";
+
     public interface BeerColumns extends ProviGenBaseContract {
         @Column(Column.Type.TEXT)
         public static final String BEER_NAME = "name";

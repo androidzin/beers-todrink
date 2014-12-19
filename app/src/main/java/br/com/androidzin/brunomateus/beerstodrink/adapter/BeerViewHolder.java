@@ -1,14 +1,17 @@
 package br.com.androidzin.brunomateus.beerstodrink.adapter;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import br.com.androidzin.brunomateus.beerstodrink.R;
 import br.com.androidzin.brunomateus.beerstodrink.model.Beer;
+import br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract;
 
 /**
  * Created by bruno on 18/12/14.
@@ -20,6 +23,7 @@ public class BeerViewHolder extends RecyclerView.ViewHolder {
     private TextView beerCountry;
     private TextView beerABV;
     private TextView beerTemperatureToDrink;
+    private TextView drinked;
     private Beer beer;
     private Context mContext;
 
@@ -30,7 +34,9 @@ public class BeerViewHolder extends RecyclerView.ViewHolder {
         beerCountry = (TextView) itemView.findViewById(R.id.beer_country);
         beerABV = (TextView) itemView.findViewById(R.id.beer_abv);
         beerTemperatureToDrink = (TextView) itemView.findViewById(R.id.beer_temperature_to_drink);
+        drinked = (TextView) itemView.findViewById(R.id.drinked_button);
         mContext = context;
+
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,11 +49,21 @@ public class BeerViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnLongClickListener( new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                /*return mContext.getContentResolver().update(
+                if(!beer.isDrinked()) {
+                    beer.setDrinked(true);
+                    Log.d(getClass().getSimpleName(), beer.getName() + "was drinked");
+                } else {
+                    beer.setDrinked(false);
+                    Log.d(getClass().getSimpleName(), beer.getName() + "was not drinked");
+                }
+                setDrinked();
+                ContentValues values = beer.getContentValues();
+                return mContext.getContentResolver().update(
                         BeerContract.BeerColumns.CONTENT_URI,
-
-                        ) == 1;*/
-                return true;
+                        values,
+                        BeerContract.QUERY_BY_ID,
+                        new String[]{String.valueOf(beer.getId())}
+                ) == 1;
             }
         });
     }
@@ -95,5 +111,15 @@ public class BeerViewHolder extends RecyclerView.ViewHolder {
                 resources.getString(R.string.label_temperature_to_drink) +
                 beer.getTemperatureToDrink()
         );
+
+        setDrinked();
+    }
+
+    private void setDrinked() {
+        if(beer.isDrinked()){
+            drinked.setVisibility(View.VISIBLE);
+        } else {
+            drinked.setVisibility(View.GONE);
+        }
     }
 }

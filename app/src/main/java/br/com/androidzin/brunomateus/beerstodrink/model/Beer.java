@@ -82,6 +82,9 @@ public class Beer {
 
     public ContentValues getContentValues(){
         ContentValues values = new ContentValues();
+        if(getId() != 0){
+            values.put(BeerColumns._ID, getId());
+        }
         values.put(BeerColumns.BEER_NAME, getName());
         values.put(BeerColumns.BEER_COUNTRY, getCountry());
         values.put(BeerColumns.BEER_ABV, getAbv());
@@ -96,7 +99,7 @@ public class Beer {
     public static Beer beerFromCursor(Cursor data){
         Beer beer = new Beer(data.getString(BeerColumns.Index.BEER_NAME),
                 data.getString(BeerColumns.Index.BEER_COUNTRY),
-                data.getString(BeerColumns.Index.BEER_DRINKED),
+                data.getString(BeerColumns.Index.BEER_TEMPERATURE_TO_DRINK),
                 data.getFloat(BeerColumns.Index.BEER_ABV),
                 data.getString(BeerColumns.Index.BEER_RELEASE_DATE),
                 data.getString(BeerColumns.Index.BEER_COLOR));
