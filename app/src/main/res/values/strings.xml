@@ -13,5 +13,8 @@
     <string name="label_abv">ABV:</string>
     <string name="label_release_date">Release Date:</string>
     <string name="label_temperature_to_drink">Temperature To Drink:</string>
+    <string name="marked_not_drank">Haven\'t you ever drink this beer?</string>
+    <string name="no_i_havent">No, I haven\'t</string>
+    <string name="ive_already_drank">I\'ve already drank it</string>
 
 </resources>

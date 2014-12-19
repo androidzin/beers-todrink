@@ -20,6 +20,11 @@ public class Beer {
     private String color;
     private boolean drinked;
 
+    public interface Drinkable {
+        public void onDrink(Beer beer);
+        public void onNotDrank(Beer beer);
+    }
+
     private Beer(String name, String country, String temperatureToDrink, float abv,
                  String releaseDate, String color) {
         this.drinked = false;

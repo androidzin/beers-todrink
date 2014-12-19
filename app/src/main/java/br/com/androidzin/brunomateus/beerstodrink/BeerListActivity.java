@@ -1,11 +1,15 @@
 package br.com.androidzin.brunomateus.beerstodrink;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 
 import br.com.androidzin.brunomateus.beerstodrink.adapter.BeerAdapter;
+import br.com.androidzin.brunomateus.beerstodrink.model.Beer;
+import br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract;
 
 
 /**
@@ -25,7 +29,8 @@ import br.com.androidzin.brunomateus.beerstodrink.adapter.BeerAdapter;
  * to listen for item selections.
  */
 public class BeerListActivity extends ActionBarActivity
-        implements BeerAdapter.OnBeerCardClickListener {
+        implements BeerAdapter.OnBeerCardClickListener, Beer.Drinkable,
+        BeerDialogConfirmation.BeerDialogConfirmartionListener {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -76,5 +81,37 @@ public class BeerListActivity extends ActionBarActivity
             detailIntent.putExtra(BeerDetailFragment.BEER_ID, beerId);
             startActivity(detailIntent);
         }
+    }
+
+    @Override
+    public void onDrink(Beer beer) {
+        beer.setDrinked(true);
+        Log.d(getClass().getSimpleName(), beer.getName() + "was drinked");
+        ContentValues values = beer.getContentValues();
+        updateBeer(beer);
+    }
+
+    private void updateBeer(Beer beer) {
+        ContentValues values = beer.getContentValues();
+        getContentResolver().update(
+                BeerContract.BeerColumns.CONTENT_URI,
+                values,
+                BeerContract.QUERY_BY_ID,
+                new String[]{String.valueOf(beer.getId())}
+        );
+    }
+
+    @Override
+    public void onNotDrank(Beer beer) {
+        BeerDialogConfirmation dialog = new BeerDialogConfirmation();
+        dialog.setBeer(beer);
+        dialog.show(getSupportFragmentManager(), "BeerConfirmation");
+    }
+
+    @Override
+    public void onDialogPositiveClick(Beer beer) {
+        beer.setDrinked(false);
+        Log.d(getClass().getSimpleName(), beer.getName() + "was not drinked");
+        updateBeer(beer);
     }
 }

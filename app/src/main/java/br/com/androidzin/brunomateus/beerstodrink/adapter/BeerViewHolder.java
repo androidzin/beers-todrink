@@ -1,17 +1,14 @@
 package br.com.androidzin.brunomateus.beerstodrink.adapter;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import br.com.androidzin.brunomateus.beerstodrink.R;
 import br.com.androidzin.brunomateus.beerstodrink.model.Beer;
-import br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract;
 
 /**
  * Created by bruno on 18/12/14.
@@ -27,7 +24,7 @@ public class BeerViewHolder extends RecyclerView.ViewHolder {
     private Beer beer;
     private Context mContext;
 
-    public BeerViewHolder(View itemView, final BeerAdapter.OnBeerCardClickListener listener, Context context) {
+    public BeerViewHolder(Context context, View itemView, final BeerAdapter.OnBeerCardClickListener listener, final Beer.Drinkable drinkable) {
         super(itemView);
         beerName = (TextView) itemView.findViewById(R.id.beer_name);
         beerReleaseDate = (TextView) itemView.findViewById(R.id.beer_release_date);
@@ -50,20 +47,12 @@ public class BeerViewHolder extends RecyclerView.ViewHolder {
             @Override
             public boolean onLongClick(View v) {
                 if(!beer.isDrinked()) {
-                    beer.setDrinked(true);
-                    Log.d(getClass().getSimpleName(), beer.getName() + "was drinked");
+                    drinkable.onDrink(beer);
                 } else {
-                    beer.setDrinked(false);
-                    Log.d(getClass().getSimpleName(), beer.getName() + "was not drinked");
+                    drinkable.onNotDrank(beer);
                 }
                 setDrinked();
-                ContentValues values = beer.getContentValues();
-                return mContext.getContentResolver().update(
-                        BeerContract.BeerColumns.CONTENT_URI,
-                        values,
-                        BeerContract.QUERY_BY_ID,
-                        new String[]{String.valueOf(beer.getId())}
-                ) == 1;
+                return true;
             }
         });
     }

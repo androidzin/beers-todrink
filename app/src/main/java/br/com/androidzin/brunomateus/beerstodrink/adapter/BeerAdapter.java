@@ -21,6 +21,7 @@ public class BeerAdapter extends CursorRecyclerViewAdapter<BeerViewHolder>{
 
     private LayoutInflater mLayoutInflater;
     private OnBeerCardClickListener mBeerListener;
+    private Beer.Drinkable mDrinkableListener;
     private Context mContext;
 
     public BeerAdapter(Context context, Cursor cursor) {
@@ -31,6 +32,10 @@ public class BeerAdapter extends CursorRecyclerViewAdapter<BeerViewHolder>{
 
     public void setOnBeerCardListener(OnBeerCardClickListener listener){
         this.mBeerListener = listener;
+    }
+
+    public void setDrinkableListener(Beer.Drinkable drinkableCallbacks) {
+        this.mDrinkableListener = drinkableCallbacks;
     }
 
     public interface OnBeerCardClickListener {
@@ -45,7 +50,7 @@ public class BeerAdapter extends CursorRecyclerViewAdapter<BeerViewHolder>{
     @Override
     public BeerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View cardView = mLayoutInflater.inflate(R.layout.beer_list_item, parent, false);
-        BeerViewHolder holder = new BeerViewHolder(cardView, mBeerListener, mContext);
+        BeerViewHolder holder = new BeerViewHolder(mContext, cardView, mBeerListener, mDrinkableListener);
         return holder;
     }
 

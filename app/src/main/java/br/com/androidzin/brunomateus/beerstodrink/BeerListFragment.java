@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -15,11 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
-
-import org.androidannotations.annotations.EFragment;
 
 import br.com.androidzin.brunomateus.beerstodrink.adapter.BeerAdapter;
 import br.com.androidzin.brunomateus.beerstodrink.model.Beer;
@@ -45,12 +40,6 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
     private static final int URL_LOADER = 1;
 
     /**
-     * The fragment's current callback object, which is notified of list item
-     * clicks.
-     */
-    private BeerAdapter.OnBeerCardClickListener mCallbacks = sDummyCallbacks;
-
-    /**
      * The current activated item position. Only used on tablets.
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
@@ -58,6 +47,40 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
     private RecyclerView mRecyclerView;
 
     private BeerAdapter mAdapter;
+
+    /**
+     * The fragment's current callback object, which is notified of list item
+     * clicks.
+     */
+    private BeerAdapter.OnBeerCardClickListener beerClickCallbacks = sBeerClickCallback;
+
+    private Beer.Drinkable drinkableCallbacks = sDrinkableCallbacks;
+
+    /**
+     * A dummy implementation of the {@link BeerAdapter.OnBeerCardClickListener}
+     * interface that does nothing. Used only when this fragment is not attached to an activity.
+     */
+    private static BeerAdapter.OnBeerCardClickListener sBeerClickCallback =
+            new BeerAdapter.OnBeerCardClickListener() {
+
+                @Override
+                public void onBeerSeleteced(String beerId) {
+
+                }
+            };
+
+    private static Beer.Drinkable sDrinkableCallbacks = new Beer.Drinkable() {
+        @Override
+        public void onDrink(Beer beer) {
+
+        }
+
+        @Override
+        public void onNotDrank(Beer beer) {
+
+        }
+    };
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -80,26 +103,14 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
         } else {
             mAdapter.swapCursor(data);
         }
-        mAdapter.setOnBeerCardListener(mCallbacks);
+        mAdapter.setOnBeerCardListener(beerClickCallbacks);
+        mAdapter.setDrinkableListener(drinkableCallbacks);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.changeCursor(null);
     }
-
-    /**
-     * A dummy implementation of the {@link BeerAdapter.OnBeerCardClickListener}
-     * interface that does nothing. Used only when this fragment is not attached to an activity.
-     */
-    private static BeerAdapter.OnBeerCardClickListener sDummyCallbacks =
-            new BeerAdapter.OnBeerCardClickListener() {
-
-        @Override
-        public void onBeerSeleteced(String beerId) {
-
-        }
-    };
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -140,7 +151,8 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
             throw new IllegalStateException("Activity must implement fragment's callbacks.");
         }
 
-        mCallbacks = (BeerAdapter.OnBeerCardClickListener) activity;
+        beerClickCallbacks = (BeerAdapter.OnBeerCardClickListener) activity;
+        drinkableCallbacks = (Beer.Drinkable) activity;
     }
 
     @Override
@@ -148,7 +160,8 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
         super.onDetach();
 
         // Reset the active callbacks interface to the dummy implementation.
-        mCallbacks = sDummyCallbacks;
+        beerClickCallbacks = sBeerClickCallback;
+        drinkableCallbacks = sDrinkableCallbacks;
     }
 
     @Override
