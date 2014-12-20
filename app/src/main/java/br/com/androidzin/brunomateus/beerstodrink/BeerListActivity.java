@@ -49,12 +49,6 @@ public class BeerListActivity extends ActionBarActivity
             // res/values-sw600dp). If this view is present, then the
             // activity should be in two-pane mode.
             mTwoPane = true;
-/*
-            // In two-pane mode, list items should be given the
-            // 'activated' state when touched.
-            ((BeerListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.beer_list))
-                    .setActivateOnItemClick(true);*/
         }
 
         // TODO: If exposing deep links into your app, handle intents here.

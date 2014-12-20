@@ -16,6 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
+
 import br.com.androidzin.brunomateus.beerstodrink.adapter.BeerAdapter;
 import br.com.androidzin.brunomateus.beerstodrink.model.Beer;
 import static br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract.BeerColumns;
@@ -30,6 +34,7 @@ import static br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract.B
  * {@link BeerAdapter.OnBeerCardClickListener}
  * interface.
  */
+@EFragment(R.layout.fragment_beer_list)
 public class BeerListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     /**
@@ -44,7 +49,8 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
 
-    private RecyclerView mRecyclerView;
+    @ViewById(R.id.beer_recycler_list)
+    RecyclerView mRecyclerView;
 
     private BeerAdapter mAdapter;
 
@@ -126,32 +132,28 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
         getLoaderManager().initLoader(URL_LOADER, null, this);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_beer_list, container, true);
-
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.beer_recycler_list);
-
+    @AfterViews
+    public void configureReclycleList(){
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mAdapter = new BeerAdapter(getActivity(), null);
         mRecyclerView.setAdapter(mAdapter);
 
-        return view;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        // Activities containing this fragment must implement its callbacks.
         if (!(activity instanceof BeerAdapter.OnBeerCardClickListener)) {
             throw new IllegalStateException("Activity must implement fragment's callbacks.");
         }
-
         beerClickCallbacks = (BeerAdapter.OnBeerCardClickListener) activity;
+
+        if (!(activity instanceof Beer.Drinkable)) {
+            throw new IllegalStateException("Activity must implement fragment's callbacks.");
+        }
         drinkableCallbacks = (Beer.Drinkable) activity;
     }
 
