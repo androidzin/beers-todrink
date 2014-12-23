@@ -2,8 +2,8 @@ package br.com.androidzin.brunomateus.beerstodrink;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
@@ -32,6 +32,7 @@ public class BeerListActivity extends ActionBarActivity
         implements BeerAdapter.OnBeerCardClickListener, Beer.Drinkable,
         BeerDialogConfirmation.BeerDialogConfirmartionListener {
 
+    static final String BEER_NAME = "beer_name";
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -82,16 +83,25 @@ public class BeerListActivity extends ActionBarActivity
         beer.setDrinked(true);
         Log.d(getClass().getSimpleName(), beer.getName() + "was drinked");
         ContentValues values = beer.getContentValues();
-        updateBeer(beer);
+        updateDatabase(beer);
+        showAnimation(beer);
     }
 
-    private void updateBeer(Beer beer) {
+    private void showAnimation(Beer beer) {
+        Intent i = new Intent(getApplicationContext(), BeerDrinkingActivity_.class);
+        i.putExtra(BEER_NAME, beer.getName());
+        startActivity(i);
+    }
+
+    private void updateDatabase(Beer beer) {
         ContentValues values = beer.getContentValues();
         getContentResolver().update(
-                BeerContract.BeerColumns.CONTENT_URI,
+                Uri.withAppendedPath(
+                        BeerContract.BeerColumns.CONTENT_URI,
+                        String.valueOf(beer.getId())),
                 values,
-                BeerContract.QUERY_BY_ID,
-                new String[]{String.valueOf(beer.getId())}
+                null,
+                null
         );
     }
 
@@ -106,6 +116,6 @@ public class BeerListActivity extends ActionBarActivity
     public void onDialogPositiveClick(Beer beer) {
         beer.setDrinked(false);
         Log.d(getClass().getSimpleName(), beer.getName() + "was not drinked");
-        updateBeer(beer);
+        updateDatabase(beer);
     }
 }

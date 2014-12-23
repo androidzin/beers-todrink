@@ -24,12 +24,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".BeerListActivity" />
         </activity>
-        
+
         <provider
-            android:authorities="br.com.androidzin.brunomateus.beerstodrink"
             android:name=".provider.BeerProvider"
+            android:authorities="br.com.androidzin.brunomateus.beerstodrink"
             android:exported="true"
-            android:readPermission="br.com.androidzin.brunomateus.beerstodrink.permission.READ_BEER"/>
+            android:readPermission="br.com.androidzin.brunomateus.beerstodrink.permission.READ_BEER" />
+
+        <activity
+            android:name=".BeerDrinkingActivity_"
+            android:theme="@style/Base.Theme.AppCompat.Light.Dialog"
+        >
+        </activity>
     </application>
 
 </manifest>

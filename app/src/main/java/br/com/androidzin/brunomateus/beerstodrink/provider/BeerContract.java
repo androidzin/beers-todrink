@@ -17,6 +17,10 @@ public final class BeerContract  {
 
     public static final String QUERY_BY_ID = "_id = ?";
 
+    public static final String DRANK_BEERS = "drinked = 1";
+
+    public static final String NOT_DRANK_BEERS = "drinked = 0";
+
     public interface BeerColumns extends ProviGenBaseContract {
         @Column(Column.Type.TEXT)
         public static final String BEER_NAME = "name";
