@@ -25,7 +25,7 @@ public class BeerProvider extends ProviGenProvider {
 
     public static final String INSERT_STATEMENT = "INSERT INTO beer ( "
             + BeerColumns.BEER_NAME + ", " + BeerColumns.BEER_COUNTRY + ", "
-            + BeerColumns.BEER_DRINKED + ", " + BeerColumns.BEER_TEMPERATURE_TO_DRINK + ", "
+            + BeerColumns.BEER_DRANK + ", " + BeerColumns.BEER_TEMPERATURE_TO_DRINK + ", "
             + BeerColumns.BEER_ABV + ", " + BeerColumns.BEER_RELEASE_DATE + ", "
             + BeerColumns.BEER_COLOR +  " ) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static Class[] contracts = new Class[]{BeerColumns.class};
@@ -84,7 +84,7 @@ public class BeerProvider extends ProviGenProvider {
 
                 bindField(statement, columns, BeerColumns.Index.BEER_NAME);
                 bindField(statement, columns, BeerColumns.Index.BEER_COUNTRY);
-                bindField(statement, columns, BeerColumns.Index.BEER_DRINKED);
+                bindField(statement, columns, BeerColumns.Index.BEER_DRANK);
                 bindField(statement, columns, BeerColumns.Index.BEER_TEMPERATURE_TO_DRINK);
                 bindField(statement, columns, BeerColumns.Index.BEER_ABV);
                 bindField(statement, columns, BeerColumns.Index.BEER_RELEASE_DATE);

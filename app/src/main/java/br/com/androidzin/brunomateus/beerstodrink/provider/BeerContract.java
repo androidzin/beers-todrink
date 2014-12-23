@@ -17,9 +17,9 @@ public final class BeerContract  {
 
     public static final String QUERY_BY_ID = "_id = ?";
 
-    public static final String DRANK_BEERS = "drinked = 1";
+    public static final String DRANK_BEERS = "drank = 1";
 
-    public static final String NOT_DRANK_BEERS = "drinked = 0";
+    public static final String NOT_DRANK_BEERS = "drank = 0";
 
     public interface BeerColumns extends ProviGenBaseContract {
         @Column(Column.Type.TEXT)
@@ -29,7 +29,7 @@ public final class BeerContract  {
         public static final String BEER_COUNTRY = "country";
 
         @Column(Column.Type.INTEGER)
-        public static final String BEER_DRINKED = "drinked";
+        public static final String BEER_DRANK = "drank";
 
         @Column(Column.Type.TEXT)
         public static final String BEER_TEMPERATURE_TO_DRINK = "temperature";
@@ -46,14 +46,14 @@ public final class BeerContract  {
         @ContentUri
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BeerContract.CONTENT_URI, "beer");
 
-        public static final String ALL_PROJECTION[] =  {_ID, BEER_NAME, BEER_COUNTRY, BEER_DRINKED,
+        public static final String ALL_PROJECTION[] =  {_ID, BEER_NAME, BEER_COUNTRY, BEER_DRANK,
                 BEER_TEMPERATURE_TO_DRINK, BEER_ABV, BEER_RELEASE_DATE, BEER_COLOR};
 
         public interface Index {
             int BEER_ID = 0;
             int BEER_NAME = 1;
             int BEER_COUNTRY = 2;
-            int BEER_DRINKED = 3;
+            int BEER_DRANK = 3;
             int BEER_TEMPERATURE_TO_DRINK = 4;
             int BEER_ABV = 5;
             int BEER_RELEASE_DATE = 6;

@@ -94,7 +94,7 @@ public class Beer {
         values.put(BeerColumns.BEER_COUNTRY, getCountry());
         values.put(BeerColumns.BEER_ABV, getAbv());
         values.put(BeerColumns.BEER_TEMPERATURE_TO_DRINK, getTemperatureToDrink());
-        values.put(BeerColumns.BEER_DRINKED, isDrinkedInt());
+        values.put(BeerColumns.BEER_DRANK, isDrinkedInt());
         values.put(BeerColumns.BEER_RELEASE_DATE, getReleaseDate());
         values.put(BeerColumns.BEER_COLOR, getColor());
 
@@ -110,7 +110,7 @@ public class Beer {
                 data.getString(BeerColumns.Index.BEER_COLOR));
 
         beer.id = data.getInt(BeerColumns.Index.BEER_ID);
-        beer.setDrinked(data.getInt(BeerColumns.Index.BEER_DRINKED));
+        beer.setDrinked(data.getInt(BeerColumns.Index.BEER_DRANK));
 
         return beer;
     }
