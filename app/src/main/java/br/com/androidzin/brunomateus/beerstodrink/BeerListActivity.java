@@ -1,11 +1,19 @@
 package br.com.androidzin.brunomateus.beerstodrink;
 
+import android.app.SearchManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import br.com.androidzin.brunomateus.beerstodrink.adapter.BeerAdapter;
 import br.com.androidzin.brunomateus.beerstodrink.model.Beer;
@@ -39,6 +47,8 @@ public class BeerListActivity extends ActionBarActivity
      */
     private boolean mTwoPane;
 
+    private BeerListFragment mBeerListFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +61,55 @@ public class BeerListActivity extends ActionBarActivity
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+        mBeerListFragment = (BeerListFragment)
+                getSupportFragmentManager().findFragmentById(R.id.beer_list);
+        handleIntent(getIntent());
 
         // TODO: If exposing deep links into your app, handle intents here.
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            updateBeerList(query);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the options menu from XML
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.filter_menu, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        MenuItem item = menu.findItem(R.id.beer_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(true);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                updateBeerList(s);
+                return true;
+            }
+        });
+
+        return true;
+    }
+
+    public void updateBeerList(String query){
+        mBeerListFragment.updateBeerList(query);
     }
 
     @Override

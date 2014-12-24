@@ -11,6 +11,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,10 +93,15 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         CursorLoader loader = null;
         if(id == URL_LOADER){
+            String selection = null;
+            if(args != null && args.containsKey("query"))
+            {
+                selection = "name LIKE '%" + args.getString("query")+"%'";
+            }
             loader = new CursorLoader(getActivity(),
                     BeerColumns.CONTENT_URI,
                     BeerColumns.ALL_PROJECTION,
-                    null,
+                    selection,
                     null,
                     null);
         }
@@ -140,6 +146,16 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
         mAdapter = new BeerAdapter(getActivity(), null);
         mRecyclerView.setAdapter(mAdapter);
 
+    }
+
+    public void updateBeerList(String query){
+        Bundle queryBundle = null;
+        if(!query.isEmpty()) {
+            queryBundle = new Bundle();
+            queryBundle.putString("query", query);
+
+        }
+        getLoaderManager().restartLoader(URL_LOADER, queryBundle, this);
     }
 
     @Override

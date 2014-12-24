@@ -17,6 +17,7 @@
     <string name="no_i_havent">No, I haven\'t</string>
     <string name="ive_already_drank">I\'ve already drank it</string>
     <string name="one_more_congratulations"></string>
+    <string name="search_beer">Search beer</string>
 
     <plurals name="one_more_congratulations">
         <item quantity="one">Congratulations!!! \n Now there are just 1 beer.</item>
