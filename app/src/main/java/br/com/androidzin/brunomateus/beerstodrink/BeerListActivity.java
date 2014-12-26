@@ -1,8 +1,10 @@
 package br.com.androidzin.brunomateus.beerstodrink;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,7 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import br.com.androidzin.brunomateus.beerstodrink.adapter.BeerAdapter;
 import br.com.androidzin.brunomateus.beerstodrink.model.Beer;
@@ -49,6 +52,10 @@ public class BeerListActivity extends ActionBarActivity
 
     private BeerListFragment mBeerListFragment;
 
+    public enum BeerFilterCriteria  {
+        NAME, COUNTRY
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +84,9 @@ public class BeerListActivity extends ActionBarActivity
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            updateBeerList(query);
+            Bundle queryBundle = new Bundle();
+            queryBundle.putString(BeerContract.BeerColumns.BEER_NAME, query);
+            updateBeerList(queryBundle, BeerFilterCriteria.NAME);
         }
     }
 
@@ -99,8 +108,10 @@ public class BeerListActivity extends ActionBarActivity
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
-                updateBeerList(s);
+            public boolean onQueryTextChange(String query) {
+                Bundle queryBundle = new Bundle();
+                queryBundle.putString(BeerContract.BeerColumns.BEER_NAME, query);
+                updateBeerList(queryBundle, BeerFilterCriteria.NAME);
                 return true;
             }
         });
@@ -108,8 +119,46 @@ public class BeerListActivity extends ActionBarActivity
         return true;
     }
 
-    public void updateBeerList(String query){
-        mBeerListFragment.updateBeerList(query);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.filter_country:
+                showFilterByCountryDialog();
+            break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showFilterByCountryDialog() {
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        final String[] c = {"brazil", "usa"};
+        final boolean[] checked = {false, false};
+        b.setTitle(R.string.filter_country)
+                .setMultiChoiceItems(c, checked, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        checked[which] = isChecked;
+                    }
+                }).setPositiveButton("Filter", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ArrayList<String> coutries = new ArrayList<String>();
+                for (int i = 0; i < checked.length; i++) {
+                    if (checked[i]) {
+                        coutries.add(c[i]);
+                    }
+                }
+                Bundle queryBundle = new Bundle();
+                queryBundle.putStringArrayList(BeerContract.BeerColumns.BEER_COUNTRY,
+                        coutries);
+                updateBeerList(queryBundle, BeerFilterCriteria.COUNTRY);
+            }
+        }).show();
+
+    }
+
+    public void updateBeerList(Bundle query, BeerFilterCriteria criteria){
+        mBeerListFragment.updateBeerList(query,criteria);
     }
 
     @Override
@@ -139,7 +188,6 @@ public class BeerListActivity extends ActionBarActivity
     public void onDrink(Beer beer) {
         beer.setDrinked(true);
         Log.d(getClass().getSimpleName(), beer.getName() + "was drinked");
-        ContentValues values = beer.getContentValues();
         updateDatabase(beer);
         showAnimation(beer);
     }

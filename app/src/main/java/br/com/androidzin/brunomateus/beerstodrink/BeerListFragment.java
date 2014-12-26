@@ -12,6 +12,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import android.widget.ListView;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.ArrayList;
 
 import br.com.androidzin.brunomateus.beerstodrink.adapter.BeerAdapter;
 import br.com.androidzin.brunomateus.beerstodrink.model.Beer;
@@ -94,9 +97,32 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
         CursorLoader loader = null;
         if(id == URL_LOADER){
             String selection = null;
-            if(args != null && args.containsKey("query"))
+            if(args != null && args.containsKey("criteria"))
             {
-                selection = "name LIKE '%" + args.getString("query")+"%'";
+                BeerListActivity.BeerFilterCriteria criteria =
+                        BeerListActivity.BeerFilterCriteria.values()[args.getInt("criteria")];
+                switch(criteria){
+                    case NAME:
+                        selection = BeerColumns.BEER_NAME + " LIKE '%" +
+                                args.getString(BeerColumns.BEER_NAME)+"%'";
+                    break;
+                    case COUNTRY:
+                        ArrayList<String> countries = args.getStringArrayList(BeerColumns.BEER_COUNTRY);
+                        StringBuffer query = new StringBuffer();
+                        for(String country: countries){
+                            query.append(BeerColumns.BEER_COUNTRY)
+                            .append(" = '")
+                            .append(country)
+                            .append("' or ");
+                        }
+                        if(query.length() != 0) {
+                            selection = query.substring(0, query.lastIndexOf("or"));
+                        }
+                    break;
+                }
+            }
+            if(selection != null && BuildConfig.DEBUG){
+                Log.d(getClass().getSimpleName(), "SQL "+ selection);
             }
             loader = new CursorLoader(getActivity(),
                     BeerColumns.CONTENT_URI,
@@ -148,13 +174,8 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
 
     }
 
-    public void updateBeerList(String query){
-        Bundle queryBundle = null;
-        if(!query.isEmpty()) {
-            queryBundle = new Bundle();
-            queryBundle.putString("query", query);
-
-        }
+    public void updateBeerList(Bundle queryBundle, BeerListActivity.BeerFilterCriteria criteria){
+        queryBundle.putInt("criteria", criteria.ordinal());
         getLoaderManager().restartLoader(URL_LOADER, queryBundle, this);
     }
 
