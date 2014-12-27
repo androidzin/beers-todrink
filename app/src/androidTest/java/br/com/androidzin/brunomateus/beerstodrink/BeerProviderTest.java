@@ -25,11 +25,11 @@ public class BeerProviderTest extends ProviderTestCase2<BeerProviderSimple> {
     private Uri contentUri = BeerColumns.CONTENT_URI;
 
     private final Beer[] TEST_SET = {
-            new Beer("Victory HpoDevil", "usa", "7", 6.7f),
-            new Beer("Eclipse Imperial Stout", "usa", "13", 9.5f),
-            new Beer("Motor Oil", "italy", "8 - 10", 6.8f),
-            new Beer("Westvleteren Abt 12", "belgium", "12", 10.02f),
-            new Beer("Brugse Zot", "belgium", "8", 6f)
+            new Beer("Victory HpoDevil", "usa", "7", 6.7f, "01/01/01", "color"),
+            new Beer("Eclipse Imperial Stout", "usa", "13", 9.5f, "01/01/01", "color"),
+            new Beer("Motor Oil", "italy", "8 - 10", 6.8f, "01/01/01", "color"),
+            new Beer("Westvleteren Abt 12", "belgium", "12", 10.02f, "01/01/01", "color"),
+            new Beer("Brugse Zot", "belgium", "8", 6f, "01/01/01", "color")
     };
 
     public BeerProviderTest(){

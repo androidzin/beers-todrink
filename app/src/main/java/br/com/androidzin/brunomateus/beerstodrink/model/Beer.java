@@ -25,7 +25,7 @@ public class Beer {
         public void onNotDrank(Beer beer);
     }
 
-    private Beer(String name, String country, String temperatureToDrink, float abv,
+    public Beer(String name, String country, String temperatureToDrink, float abv,
                  String releaseDate, String color) {
         this.drinked = false;
         this.name = name;
