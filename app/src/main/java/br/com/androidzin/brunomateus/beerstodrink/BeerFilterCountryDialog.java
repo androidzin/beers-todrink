@@ -68,7 +68,7 @@ public class BeerFilterCountryDialog extends DialogFragment {
                         for(int i = 0; i < checked.length; i++){
                             checked[i] = false;
                         }
-                        listener.onFilter(null);
+                        listener.onFilter(new Bundle());
                     }
                 });
         return b.create();
@@ -85,9 +85,10 @@ public class BeerFilterCountryDialog extends DialogFragment {
             Cursor data = getActivity().getContentResolver().query(
                     BeerContract.BeerColumns.CONTENT_URI,
                     projection,
-                    "1 GROUP by country",
+                    BeerContract.BEER_COUNTRIES,
                     null,
-                    "country asc");
+                    BeerContract.BeerColumns.BEER_COUNTRY + " asc");
+
             if(data.getCount() > 0) {
                 countries = new String[data.getCount()];
                 checked = new boolean[data.getCount()];

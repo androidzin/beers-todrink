@@ -21,6 +21,8 @@ public final class BeerContract  {
 
     public static final String NOT_DRANK_BEERS = "drank = 0";
 
+    public static final String BEER_COUNTRIES = "1 GROUP by country";
+
     public interface BeerColumns extends ProviGenBaseContract {
         @Column(Column.Type.TEXT)
         public static final String BEER_NAME = "name";
