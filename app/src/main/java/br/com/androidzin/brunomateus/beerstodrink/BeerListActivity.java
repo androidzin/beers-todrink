@@ -111,7 +111,9 @@ public class BeerListActivity extends ActionBarActivity
             @Override
             public boolean onQueryTextChange(String query) {
                 Bundle queryBundle = new Bundle();
-                queryBundle.putString(BeerContract.BeerColumns.BEER_NAME, query);
+                if(!query.isEmpty()) {
+                    queryBundle.putString(BeerContract.BeerColumns.BEER_NAME, query);
+                }
                 updateBeerList(queryBundle, BeerFilterCriteria.NAME);
                 return true;
             }

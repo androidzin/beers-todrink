@@ -11,11 +11,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 
 import org.androidannotations.annotations.AfterViews;
@@ -26,6 +22,8 @@ import java.util.ArrayList;
 
 import br.com.androidzin.brunomateus.beerstodrink.adapter.BeerAdapter;
 import br.com.androidzin.brunomateus.beerstodrink.model.Beer;
+import br.com.androidzin.brunomateus.beerstodrink.util.FilterBuilder;
+
 import static br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract.BeerColumns;
 
 /**
@@ -96,34 +94,7 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         CursorLoader loader = null;
         if(id == URL_LOADER){
-            String selection = null;
-            if(args != null && args.containsKey("criteria"))
-            {
-                BeerListActivity.BeerFilterCriteria criteria =
-                        BeerListActivity.BeerFilterCriteria.values()[args.getInt("criteria")];
-                switch(criteria){
-                    case NAME:
-                        selection = BeerColumns.BEER_NAME + " LIKE '%" +
-                                args.getString(BeerColumns.BEER_NAME)+"%'";
-                    break;
-                    case COUNTRY:
-                        ArrayList<String> countries = args.getStringArrayList(BeerColumns.BEER_COUNTRY);
-                        StringBuffer query = new StringBuffer();
-                        for(String country: countries){
-                            query.append(BeerColumns.BEER_COUNTRY)
-                            .append(" = '")
-                            .append(country)
-                            .append("' or ");
-                        }
-                        if(query.length() != 0) {
-                            selection = query.substring(0, query.lastIndexOf("or"));
-                        }
-                    break;
-                }
-            }
-            if(selection != null && BuildConfig.DEBUG){
-                Log.d(getClass().getSimpleName(), "SQL "+ selection);
-            }
+            String selection = FilterBuilder.getQuery(args);
             loader = new CursorLoader(getActivity(),
                     BeerColumns.CONTENT_URI,
                     BeerColumns.ALL_PROJECTION,
