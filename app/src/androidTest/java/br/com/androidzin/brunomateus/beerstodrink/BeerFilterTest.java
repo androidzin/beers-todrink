@@ -20,6 +20,7 @@ public class BeerFilterTest extends TestCase {
         public static void clearQuery(){
             FilterBuilder.nameSelection = null;
             FilterBuilder.currentFilterCountry = null;
+            FilterBuilder.showDrinked = false;
         }
 
         public static String getQuery(Bundle args){
@@ -47,21 +48,30 @@ public class BeerFilterTest extends TestCase {
         return queryBundle;
     }
 
+    private Bundle getDrinkFilterBundle() {
+        Bundle queryBundle = new Bundle();
+        queryBundle.putInt("criteria", BeerListActivity.BeerFilterCriteria.DRINK.ordinal());
+        return queryBundle;
+    }
+
     public void testFilterByEmptyName(){
         String query = FilterBuilderToTest.getQuery(getNameFilterBundle(""));
-        assertNull(query);
+        String expected = BeerContract.BeerColumns.BEER_DRANK + " = 0";
+        assertEquals(expected, query);
     }
 
     public void testFilterByName(){
         String beerName = "teste";
-        String expected = BeerContract.BeerColumns.BEER_NAME + " LIKE '%" + beerName + "%'";
+        String expected = BeerContract.BeerColumns.BEER_DRANK + " = 0 AND " +
+                BeerContract.BeerColumns.BEER_NAME + " LIKE '%" + beerName + "%'";
         String query = FilterBuilderToTest.getQuery(getNameFilterBundle(beerName));
         assertEquals(expected, query);
     }
 
     public void testFilterByOneCountry(){
         String[] arrayCountries = {"brazil"};
-        String expected = BeerContract.BeerColumns.BEER_COUNTRY + " = '" + arrayCountries[0] + "'";
+        String expected = BeerContract.BeerColumns.BEER_DRANK + " = 0 AND " +
+                "( " + BeerContract.BeerColumns.BEER_COUNTRY + " = '" + arrayCountries[0] + "')";
         ArrayList<String> countries = new ArrayList<String>();
         countries.add(arrayCountries[0]);
         String query = FilterBuilderToTest.getQuery(getCountryFilterBundle(countries));
@@ -70,8 +80,9 @@ public class BeerFilterTest extends TestCase {
 
     public void testFilterByCountry(){
         String[] arrayCountries = {"brazil", "usa"};
-        String expected = BeerContract.BeerColumns.BEER_COUNTRY + " = '" + arrayCountries[0] +
-                "' OR " + BeerContract.BeerColumns.BEER_COUNTRY + " = '" + arrayCountries[1] + "'";
+        String expected = BeerContract.BeerColumns.BEER_DRANK + " = 0 AND " +
+                "( " + BeerContract.BeerColumns.BEER_COUNTRY + " = '" + arrayCountries[0] +
+                "' OR " + BeerContract.BeerColumns.BEER_COUNTRY + " = '" + arrayCountries[1] + "')";
         ArrayList<String> countries = new ArrayList<String>();
         countries.add(arrayCountries[0]);
         countries.add(arrayCountries[1]);
@@ -87,9 +98,10 @@ public class BeerFilterTest extends TestCase {
         countries.add(arrayCountries[0]);
         countries.add(arrayCountries[1]);
 
-        String expected = BeerContract.BeerColumns.BEER_NAME + " LIKE '%" + beerName + "%'" +
-                " AND " + BeerContract.BeerColumns.BEER_COUNTRY + " = '" + arrayCountries[0] +
-                "' OR " + BeerContract.BeerColumns.BEER_COUNTRY + " = '" + arrayCountries[1] + "'";
+        String expected = BeerContract.BeerColumns.BEER_DRANK + " = 0 AND " +
+                BeerContract.BeerColumns.BEER_NAME + " LIKE '%" + beerName + "%'" +
+                " AND ( " + BeerContract.BeerColumns.BEER_COUNTRY + " = '" + arrayCountries[0] +
+                "' OR " + BeerContract.BeerColumns.BEER_COUNTRY + " = '" + arrayCountries[1] + "')";
 
         String query = FilterBuilderToTest.getQuery(getCountryFilterBundle(countries));
         assertEquals(expected, query.trim());
@@ -105,12 +117,23 @@ public class BeerFilterTest extends TestCase {
         String beerName = "teste";
         String query = FilterBuilderToTest.getQuery(getNameFilterBundle(beerName));
 
-        String expected = BeerContract.BeerColumns.BEER_NAME + " LIKE '%" + beerName + "%'" +
-                " AND " + BeerContract.BeerColumns.BEER_COUNTRY + " = '" + arrayCountries[0] +
-                "' OR " + BeerContract.BeerColumns.BEER_COUNTRY + " = '" + arrayCountries[1] + "'";
+        String expected = BeerContract.BeerColumns.BEER_DRANK + " = 0 AND " +
+                BeerContract.BeerColumns.BEER_NAME + " LIKE '%" + beerName + "%'" +
+                " AND ( " + BeerContract.BeerColumns.BEER_COUNTRY + " = '" + arrayCountries[0] +
+                "' OR " + BeerContract.BeerColumns.BEER_COUNTRY + " = '" + arrayCountries[1] + "')";
 
-        Log.d("teste", expected);
-        Log.d("teste", query);
         assertEquals(expected, query.trim());
+    }
+
+    public void testShowAll(){
+        String query = FilterBuilderToTest.getQuery(getDrinkFilterBundle());
+        assertNull(query);
+    }
+
+    public void testShowToDrink(){
+        FilterBuilder.getQuery(getDrinkFilterBundle());
+        String query = FilterBuilderToTest.getQuery(getDrinkFilterBundle());
+        String expected = BeerContract.BeerColumns.BEER_DRANK + " = 0";
+        assertEquals(expected, query);
     }
 }

@@ -6,6 +6,9 @@
         android:icon="@android:drawable/ic_menu_search"
         yourapp:showAsAction="ifRoom|collapseActionView"
         yourapp:actionViewClass="android.support.v7.widget.SearchView" />
+    <item android:id="@+id/filter_drink"
+        android:title="@string/show_all"
+        yourapp:showAsAction="always" />
     <item android:id="@+id/filter_country"
         android:title="@string/filter_country"
         yourapp:showAsAction="never" />

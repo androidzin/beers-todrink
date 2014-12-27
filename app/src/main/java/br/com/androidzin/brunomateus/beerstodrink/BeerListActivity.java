@@ -1,10 +1,8 @@
 package br.com.androidzin.brunomateus.beerstodrink;
 
-import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,8 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import java.util.ArrayList;
 
 import br.com.androidzin.brunomateus.beerstodrink.adapter.BeerAdapter;
 import br.com.androidzin.brunomateus.beerstodrink.model.Beer;
@@ -54,7 +50,7 @@ public class BeerListActivity extends ActionBarActivity
     private BeerListFragment mBeerListFragment;
 
     public enum BeerFilterCriteria  {
-        NAME, COUNTRY
+        NAME, COUNTRY, DRINK
     }
 
     @Override
@@ -128,8 +124,21 @@ public class BeerListActivity extends ActionBarActivity
             case R.id.filter_country:
                 showFilterByCountryDialog();
             break;
+            case R.id.filter_drink:
+                if(item.getTitle().equals(getString(R.string.show_all))){
+                    item.setTitle(getString(R.string.not_drank));
+                } else {
+                    item.setTitle(getString(R.string.show_all));
+                }
+                showFilterDrink();
+            break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showFilterDrink() {
+        updateBeerList(new Bundle(), BeerFilterCriteria.DRINK);
+
     }
 
     private void showFilterByCountryDialog() {

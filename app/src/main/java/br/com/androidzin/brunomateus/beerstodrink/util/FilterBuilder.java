@@ -16,6 +16,7 @@ public class FilterBuilder {
 
     protected static String nameSelection;
     protected static String currentFilterCountry;
+    protected static boolean showDrinked = false;
 
     public static String getQuery(Bundle args) {
         if(args != null && args.containsKey("criteria"))
@@ -28,6 +29,9 @@ public class FilterBuilder {
                     break;
                 case COUNTRY:
                     addCountryCriteria(args);
+                    break;
+                case DRINK:
+                    addDrinkCriteria();
                     break;
             }
         }
@@ -42,18 +46,30 @@ public class FilterBuilder {
 
     private static String buildQuery() {
         String selection = null;
+
+        if(!showDrinked){
+            selection = "drank = 0";
+        }
         if(nameSelection != null){
-            selection = nameSelection;
+            if(selection == null){
+                selection = nameSelection;
+            } else {
+                selection = selection.concat(" AND ").concat(nameSelection);
+            }
         }
 
         if(currentFilterCountry != null){
             if(selection == null){
                 selection = currentFilterCountry;
             } else{
-                selection = nameSelection.concat(" AND ").concat(currentFilterCountry);
+                selection = selection.concat(" AND ").concat(currentFilterCountry);
             }
         }
         return selection;
+    }
+
+    private static void addDrinkCriteria() {
+        showDrinked = !showDrinked;
     }
 
     private static void addCountryCriteria(Bundle args) {
@@ -66,7 +82,7 @@ public class FilterBuilder {
                         .append(country)
                         .append("' OR ");
             }
-            currentFilterCountry = query.substring(0, query.lastIndexOf("OR"));
+            currentFilterCountry = "( " + query.substring(0, query.lastIndexOf(" OR")) + ")";
         } else {
             currentFilterCountry = null;
         }

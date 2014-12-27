@@ -21,6 +21,8 @@
     <string name="filter_country">Filter by country</string>
     <string name="clear">Clear</string>
     <string name="filter">Filter</string>
+    <string name="show_all">Show all</string>
+    <string name="not_drank">Show to drink</string>
 
     <plurals name="one_more_congratulations">
         <item quantity="one">Congratulations!!! \n Now there are just 1 beer.</item>
