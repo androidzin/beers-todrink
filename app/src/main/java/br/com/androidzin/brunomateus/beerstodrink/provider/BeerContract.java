@@ -13,7 +13,7 @@ public final class BeerContract  {
 
     public static final String AUTHORITY = "br.com.androidzin.brunomateus.beerstodrink";
 
-    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY);
+    private static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
     public static final String QUERY_BY_ID = "_id = ?";
 

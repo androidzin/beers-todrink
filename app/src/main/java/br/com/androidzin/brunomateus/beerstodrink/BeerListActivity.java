@@ -41,7 +41,8 @@ import br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract;
  */
 public class BeerListActivity extends ActionBarActivity
         implements BeerAdapter.OnBeerCardClickListener, Beer.Drinkable,
-        BeerDialogConfirmation.BeerDialogConfirmartionListener {
+        BeerDialogConfirmation.BeerDialogConfirmartionListener,
+        BeerFilterCountryDialog.FilterCountryListener{
 
     static final String BEER_NAME = "beer_name";
     /**
@@ -130,31 +131,14 @@ public class BeerListActivity extends ActionBarActivity
     }
 
     private void showFilterByCountryDialog() {
-        AlertDialog.Builder b = new AlertDialog.Builder(this);
-        final String[] c = {"brazil", "usa"};
-        final boolean[] checked = {false, false};
-        b.setTitle(R.string.filter_country)
-                .setMultiChoiceItems(c, checked, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        checked[which] = isChecked;
-                    }
-                }).setPositiveButton("Filter", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ArrayList<String> coutries = new ArrayList<String>();
-                for (int i = 0; i < checked.length; i++) {
-                    if (checked[i]) {
-                        coutries.add(c[i]);
-                    }
-                }
-                Bundle queryBundle = new Bundle();
-                queryBundle.putStringArrayList(BeerContract.BeerColumns.BEER_COUNTRY,
-                        coutries);
-                updateBeerList(queryBundle, BeerFilterCriteria.COUNTRY);
-            }
-        }).show();
+        BeerFilterCountryDialog dialog = new BeerFilterCountryDialog();
+        dialog.setListener(this);
+        dialog.show(getSupportFragmentManager(), "BeerFilterCountry");
+    }
 
+    @Override
+    public void onFilter(Bundle queryBundler) {
+        updateBeerList(queryBundler, BeerFilterCriteria.COUNTRY);
     }
 
     public void updateBeerList(Bundle query, BeerFilterCriteria criteria){
@@ -220,7 +204,7 @@ public class BeerListActivity extends ActionBarActivity
     @Override
     public void onDialogPositiveClick(Beer beer) {
         beer.setDrinked(false);
-        Log.d(getClass().getSimpleName(), beer.getName() + "was not drinked");
         updateDatabase(beer);
+        Log.d(getClass().getSimpleName(), beer.getName() + "was not drinked");
     }
 }
