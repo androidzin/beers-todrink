@@ -14,15 +14,19 @@ import br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract;
  */
 public class FilterBuilder {
 
+    public static final String CRITERIA = "criteria";
+    public static final String AND = " AND ";
+    public static final String LIKE = "LIKE";
+    public static final String OR = "OR";
     protected static String nameSelection;
     protected static String currentFilterCountry;
     protected static boolean showDrinked = false;
 
     public static String getQuery(Bundle args) {
-        if(args != null && args.containsKey("criteria"))
+        if(args != null && args.containsKey(CRITERIA))
         {
             BeerListActivity.BeerFilterCriteria criteria =
-                    BeerListActivity.BeerFilterCriteria.values()[args.getInt("criteria")];
+                    BeerListActivity.BeerFilterCriteria.values()[args.getInt(CRITERIA)];
             switch(criteria){
                 case NAME:
                     addNameCriteria(args);
@@ -48,13 +52,13 @@ public class FilterBuilder {
         String selection = null;
 
         if(!showDrinked){
-            selection = "drank = 0";
+            selection = BeerContract.NOT_DRANK_BEERS;
         }
         if(nameSelection != null){
             if(selection == null){
                 selection = nameSelection;
             } else {
-                selection = selection.concat(" AND ").concat(nameSelection);
+                selection = selection.concat(AND).concat(nameSelection);
             }
         }
 
@@ -62,7 +66,7 @@ public class FilterBuilder {
             if(selection == null){
                 selection = currentFilterCountry;
             } else{
-                selection = selection.concat(" AND ").concat(currentFilterCountry);
+                selection = selection.concat(AND).concat(currentFilterCountry);
             }
         }
         return selection;
@@ -80,9 +84,9 @@ public class FilterBuilder {
                 query.append(BeerContract.BeerColumns.BEER_COUNTRY)
                         .append(" = '")
                         .append(country)
-                        .append("' OR ");
+                        .append("' " + OR + " ");
             }
-            currentFilterCountry = "( " + query.substring(0, query.lastIndexOf(" OR")) + ")";
+            currentFilterCountry = "( " + query.substring(0, query.lastIndexOf(" " + OR)) + ")";
         } else {
             currentFilterCountry = null;
         }
@@ -90,7 +94,7 @@ public class FilterBuilder {
 
     private static void addNameCriteria(Bundle args) {
         if(args.containsKey(BeerContract.BeerColumns.BEER_NAME)) {
-            nameSelection = BeerContract.BeerColumns.BEER_NAME + " LIKE '%" +
+            nameSelection = BeerContract.BeerColumns.BEER_NAME + " " + LIKE + " '%" +
                     args.getString(BeerContract.BeerColumns.BEER_NAME) + "%'";
         } else {
             nameSelection = null;
