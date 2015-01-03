@@ -86,7 +86,9 @@ public class FilterBuilder {
                         .append(country)
                         .append("' " + OR + " ");
             }
-            currentFilterCountry = "( " + query.substring(0, query.lastIndexOf(" " + OR)) + ")";
+            if(query.length() > 0){
+                currentFilterCountry = "( " + query.substring(0, query.lastIndexOf(" " + OR)) + ")";
+            }
         } else {
             currentFilterCountry = null;
         }
