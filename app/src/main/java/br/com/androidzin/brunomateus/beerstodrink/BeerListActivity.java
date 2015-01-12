@@ -113,7 +113,6 @@ public class BeerListActivity extends ActionBarActivity
     @Override
     public void onDrink(Beer beer) {
         beer.setDrinked(true);
-        Log.d(getClass().getSimpleName(), beer.getName() + "was drinked");
         updateDatabase(beer);
         showAnimation(beer);
     }
@@ -147,6 +146,5 @@ public class BeerListActivity extends ActionBarActivity
     public void onDialogPositiveClick(Beer beer) {
         beer.setDrinked(false);
         updateDatabase(beer);
-        Log.d(getClass().getSimpleName(), beer.getName() + "was not drinked");
     }
 }

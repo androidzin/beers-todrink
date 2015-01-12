@@ -55,6 +55,7 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
     private static final int URL_LOADER = 1;
     static final String BEER_NAME = "beer_name";
+    public static final String DIALOG_FILTER_COUNTRY = "BeerFilterCountry";
 
     /**
      * The current activated item position. Only used on tablets.
@@ -142,6 +143,13 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        if(savedInstanceState != null){
+            BeerFilterCountryDialog countryFilterDialog =
+                    (BeerFilterCountryDialog) getFragmentManager().findFragmentByTag(DIALOG_FILTER_COUNTRY);
+            if(countryFilterDialog != null){
+                countryFilterDialog.setListener(this);
+            }
+        }
     }
 
     @Override
@@ -202,7 +210,7 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
     private void showFilterByCountryDialog() {
         BeerFilterCountryDialog dialog = new BeerFilterCountryDialog();
         dialog.setListener(this);
-        dialog.show(getFragmentManager(), "BeerFilterCountry");
+        dialog.show(getFragmentManager(), DIALOG_FILTER_COUNTRY);
     }
 
     @Override
