@@ -20,7 +20,11 @@ public class FilterBuilder {
     public static final String OR = "OR";
     protected static String nameSelection;
     protected static String currentFilterCountry;
-    protected static boolean showDrinked = false;
+    protected static boolean showDrank = false;
+
+    public static boolean showAll(){
+        return !showDrank;
+    }
 
     public static String getQuery(Bundle args) {
         if(args != null && args.containsKey(CRITERIA))
@@ -51,7 +55,7 @@ public class FilterBuilder {
     private static String buildQuery() {
         String selection = null;
 
-        if(!showDrinked){
+        if(!showDrank){
             selection = BeerContract.NOT_DRANK_BEERS;
         }
         if(nameSelection != null){
@@ -73,7 +77,7 @@ public class FilterBuilder {
     }
 
     private static void addDrinkCriteria() {
-        showDrinked = !showDrinked;
+        showDrank = !showDrank;
     }
 
     private static void addCountryCriteria(Bundle args) {

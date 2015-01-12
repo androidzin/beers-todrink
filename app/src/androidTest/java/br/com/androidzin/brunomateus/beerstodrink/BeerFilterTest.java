@@ -1,7 +1,6 @@
 package br.com.androidzin.brunomateus.beerstodrink;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import junit.framework.TestCase;
 
@@ -20,7 +19,7 @@ public class BeerFilterTest extends TestCase {
         public static void clearQuery(){
             FilterBuilder.nameSelection = null;
             FilterBuilder.currentFilterCountry = null;
-            FilterBuilder.showDrinked = false;
+            FilterBuilder.showDrank = false;
         }
 
         public static String getQuery(Bundle args){

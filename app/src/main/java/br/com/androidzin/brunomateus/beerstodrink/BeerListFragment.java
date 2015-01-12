@@ -15,7 +15,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,8 +23,6 @@ import android.widget.ListView;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
-
-import java.util.ArrayList;
 
 import br.com.androidzin.brunomateus.beerstodrink.adapter.BeerAdapter;
 import br.com.androidzin.brunomateus.beerstodrink.model.Beer;
@@ -157,6 +154,7 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
         super.onCreateOptionsMenu(menu, inflater);
         // Inflate the options menu from XML
         inflater.inflate(R.menu.filter_menu, menu);
+        updateDrinkFilterMenu(menu.findItem(R.id.filter_drink));
 
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         MenuItem item = menu.findItem(R.id.beer_search);
@@ -189,20 +187,23 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
                 showFilterByCountryDialog();
                 break;
             case R.id.filter_drink:
-                if(item.getTitle().equals(getString(R.string.show_all))){
-                    item.setTitle(getString(R.string.not_drank));
-                } else {
-                    item.setTitle(getString(R.string.show_all));
-                }
-                showFilterDrink();
+                updateFilterDrink();
+                updateDrinkFilterMenu(item);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void updateDrinkFilterMenu(MenuItem item) {
+        if(FilterBuilder.showAll()){
+            item.setTitle(getString(R.string.show_all));
+        } else {
+            item.setTitle(getString(R.string.not_drank));
+        }
+    }
 
 
-    private void showFilterDrink() {
+    private void updateFilterDrink() {
         updateBeerList(new Bundle(), BeerListActivity.BeerFilterCriteria.DRINK);
 
     }
