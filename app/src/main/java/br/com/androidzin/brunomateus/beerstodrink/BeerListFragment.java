@@ -1,6 +1,8 @@
 package br.com.androidzin.brunomateus.beerstodrink;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,9 +11,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import org.androidannotations.annotations.AfterViews;
@@ -22,6 +29,7 @@ import java.util.ArrayList;
 
 import br.com.androidzin.brunomateus.beerstodrink.adapter.BeerAdapter;
 import br.com.androidzin.brunomateus.beerstodrink.model.Beer;
+import br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract;
 import br.com.androidzin.brunomateus.beerstodrink.util.FilterBuilder;
 
 import static br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract.BeerColumns;
@@ -37,7 +45,8 @@ import static br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract.B
  * interface.
  */
 @EFragment(R.layout.fragment_beer_list)
-public class BeerListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class BeerListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
+        BeerFilterCountryDialog.FilterCountryListener{
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -45,6 +54,7 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
     private static final int URL_LOADER = 1;
+    static final String BEER_NAME = "beer_name";
 
     /**
      * The current activated item position. Only used on tablets.
@@ -129,6 +139,73 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        // Inflate the options menu from XML
+        inflater.inflate(R.menu.filter_menu, menu);
+
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        MenuItem item = menu.findItem(R.id.beer_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setIconifiedByDefault(true);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                Bundle queryBundle = new Bundle();
+                if(!query.isEmpty()) {
+                    queryBundle.putString(BeerContract.BeerColumns.BEER_NAME, query);
+                }
+                updateBeerList(queryBundle, BeerListActivity.BeerFilterCriteria.NAME);
+                return true;
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.filter_country:
+                showFilterByCountryDialog();
+                break;
+            case R.id.filter_drink:
+                if(item.getTitle().equals(getString(R.string.show_all))){
+                    item.setTitle(getString(R.string.not_drank));
+                } else {
+                    item.setTitle(getString(R.string.show_all));
+                }
+                showFilterDrink();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+    private void showFilterDrink() {
+        updateBeerList(new Bundle(), BeerListActivity.BeerFilterCriteria.DRINK);
+
+    }
+
+    private void showFilterByCountryDialog() {
+        BeerFilterCountryDialog dialog = new BeerFilterCountryDialog();
+        dialog.setListener(this);
+        dialog.show(getFragmentManager(), "BeerFilterCountry");
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -183,4 +260,8 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
         }
     }
 
+    @Override
+    public void onFilter(Bundle queryBundler) {
+        updateBeerList(queryBundler, BeerListActivity.BeerFilterCriteria.COUNTRY);
+    }
 }

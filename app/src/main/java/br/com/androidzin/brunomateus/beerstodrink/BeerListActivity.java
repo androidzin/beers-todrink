@@ -37,8 +37,7 @@ import br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract;
  */
 public class BeerListActivity extends ActionBarActivity
         implements BeerAdapter.OnBeerCardClickListener, Beer.Drinkable,
-        BeerDialogConfirmation.BeerDialogConfirmartionListener,
-        BeerFilterCountryDialog.FilterCountryListener{
+        BeerDialogConfirmation.BeerDialogConfirmartionListener  {
 
     static final String BEER_NAME = "beer_name";
     /**
@@ -83,78 +82,10 @@ public class BeerListActivity extends ActionBarActivity
             String query = intent.getStringExtra(SearchManager.QUERY);
             Bundle queryBundle = new Bundle();
             queryBundle.putString(BeerContract.BeerColumns.BEER_NAME, query);
-            updateBeerList(queryBundle, BeerFilterCriteria.NAME);
+            mBeerListFragment.updateBeerList(queryBundle, BeerFilterCriteria.NAME);
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the options menu from XML
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.filter_menu, menu);
-
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem item = menu.findItem(R.id.beer_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(true);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                Bundle queryBundle = new Bundle();
-                if(!query.isEmpty()) {
-                    queryBundle.putString(BeerContract.BeerColumns.BEER_NAME, query);
-                }
-                updateBeerList(queryBundle, BeerFilterCriteria.NAME);
-                return true;
-            }
-        });
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.filter_country:
-                showFilterByCountryDialog();
-            break;
-            case R.id.filter_drink:
-                if(item.getTitle().equals(getString(R.string.show_all))){
-                    item.setTitle(getString(R.string.not_drank));
-                } else {
-                    item.setTitle(getString(R.string.show_all));
-                }
-                showFilterDrink();
-            break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void showFilterDrink() {
-        updateBeerList(new Bundle(), BeerFilterCriteria.DRINK);
-
-    }
-
-    private void showFilterByCountryDialog() {
-        BeerFilterCountryDialog dialog = new BeerFilterCountryDialog();
-        dialog.setListener(this);
-        dialog.show(getSupportFragmentManager(), "BeerFilterCountry");
-    }
-
-    @Override
-    public void onFilter(Bundle queryBundler) {
-        updateBeerList(queryBundler, BeerFilterCriteria.COUNTRY);
-    }
-
-    public void updateBeerList(Bundle query, BeerFilterCriteria criteria){
-        mBeerListFragment.updateBeerList(query,criteria);
-    }
 
     @Override
     public void onBeerSeleteced(String beerId) {
