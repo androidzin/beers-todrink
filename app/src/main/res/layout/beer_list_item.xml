@@ -59,19 +59,5 @@
                 android:layout_below="@id/beer_abv"
                 android:layout_alignParentLeft="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-
-
-            <TextView
-                android:id="@+id/drinked_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/beer_image"
-                android:drawableLeft="@drawable/beer_drinked"
-                android:background="@null"
-                android:gravity="left|center_vertical"
-                android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                android:text="@string/drink"
-                android:visibility="gone"/>
-
     </RelativeLayout>
 </android.support.v7.widget.CardView>
