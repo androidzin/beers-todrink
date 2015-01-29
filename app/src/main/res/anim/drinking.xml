@@ -1,7 +1,23 @@
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="true">
-    <item android:drawable="@drawable/full" android:duration="300" />
-    <item android:drawable="@drawable/almost_full" android:duration="300" />
-    <item android:drawable="@drawable/almost_empty" android:duration="300" />
-    <item android:drawable="@drawable/empty" android:duration="300" />
+    <item android:drawable="@drawable/blond_01" android:duration="100" />
+    <item android:drawable="@drawable/blond_02" android:duration="100" />
+    <item android:drawable="@drawable/blond_03" android:duration="100" />
+    <item android:drawable="@drawable/blond_04" android:duration="100" />
+    <item android:drawable="@drawable/blond_05" android:duration="100" />
+    <item android:drawable="@drawable/blond_06" android:duration="100" />
+    <item android:drawable="@drawable/blond_07" android:duration="100" />
+    <item android:drawable="@drawable/blond_08" android:duration="100" />
+    <item android:drawable="@drawable/blond_09" android:duration="100" />
+    <item android:drawable="@drawable/blond_10" android:duration="100" />
+    <item android:drawable="@drawable/blond_11" android:duration="100" />
+    <item android:drawable="@drawable/blond_12" android:duration="100" />
+    <item android:drawable="@drawable/blond_13" android:duration="100" />
+    <item android:drawable="@drawable/blond_14" android:duration="100" />
+    <item android:drawable="@drawable/blond_15" android:duration="100" />
+    <item android:drawable="@drawable/blond_16" android:duration="100" />
+    <item android:drawable="@drawable/blond_17" android:duration="100" />
+    <item android:drawable="@drawable/blond_18" android:duration="100" />
+    <item android:drawable="@drawable/blond_19" android:duration="100" />
+    <item android:drawable="@drawable/blond_20" android:duration="100" />
 </animation-list>

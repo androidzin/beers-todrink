@@ -55,7 +55,7 @@ public class BeerDrinkingActivity extends FragmentActivity implements LoaderMana
         showStatus();
     }
 
-    @UiThread(delay=1200)
+    @UiThread(delay=2000)
     public void showStatus(){
         drinkingMessage.setVisibility(View.VISIBLE);
     }
