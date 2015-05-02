@@ -3,6 +3,7 @@ package br.com.androidzin.brunomateus.beerstodrink;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
@@ -115,7 +116,7 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1){
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB){
             mAdapter.changeCursor(data);
         } else {
             mAdapter.swapCursor(data);
@@ -189,6 +190,13 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
             case R.id.filter_drink:
                 updateFilterDrink();
                 updateDrinkFilterMenu(item);
+                break;
+            case R.id.settings_menu:
+                Intent i = new Intent(getActivity(), SettingsActivity_.class);
+                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB){
+                    i.setClass(getActivity(), SettingsOldActivity.class);
+                }
+                startActivity(i);
                 break;
         }
         return super.onOptionsItemSelected(item);

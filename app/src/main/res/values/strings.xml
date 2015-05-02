@@ -9,10 +9,10 @@
     <string name="drink">Drink</string>
 
     <!-- Labels -->
-    <string name="label_country">Country:</string>
-    <string name="label_abv">ABV:</string>
-    <string name="label_release_date">Release Date:</string>
-    <string name="label_temperature_to_drink">Temperature To Drink:</string>
+    <string name="label_country">Country: </string>
+    <string name="label_abv">ABV: </string>
+    <string name="label_release_date">Release Date: </string>
+    <string name="label_temperature_to_drink">Serving temperature: </string>
     <string name="marked_not_drank">Haven\'t you ever drink this beer?</string>
     <string name="no_i_havent">No, I haven\'t</string>
     <string name="ive_already_drank">I\'ve already drank it</string>
@@ -28,5 +28,19 @@
         <item quantity="one">Congratulations!!! \n Now there are just 1 beer.</item>
         <item quantity="other">Congratulations!!! \n Now there are just %d beers.</item>
     </plurals>
+
+    <!-- Settings -->
+
+    <string name="settings">Settings</string>
+    <string name="social_networks">Social Settings</string>
+    <string name="facebook_share_checkin">Push Check-ins to Facebook</string>
+    <string name="general_settings">General Settings</string>
+    <string name="select_temperature_metric">Metric System Temperature</string>
+
+
+    <string name="celsius">Celsius</string>
+    <string name="fahrenheit">Fahrenheit</string>
+    <string name="pref_key_face_share_checkin">pref_key_face_share_chekin</string>
+    <string name="pref_temperature">pref_temperature</string>
 
 </resources>

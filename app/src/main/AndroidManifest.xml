@@ -10,7 +10,7 @@
         <activity
             android:name=".BeerListActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,8 +19,10 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
         <activity
             android:name=".BeerDetailActivity"
@@ -39,8 +41,22 @@
 
         <activity
             android:name=".BeerDrinkingActivity_"
-            android:theme="@style/Base.Theme.AppCompat.Light.Dialog"
-        >
+            android:theme="@style/Base.Theme.AppCompat.Light.Dialog" />
+        <activity
+            android:name=".SettingsActivity_"
+            android:label="@string/settings"
+            android:parentActivityName=".BeerListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.androidzin.brunomateus.beerstodrink.BeerListActivity" />
+        </activity>/>
+        <activity
+            android:name=".SettingsOldActivity"
+            android:label="@string/settings"
+            android:parentActivityName=".BeerListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.androidzin.brunomateus.beerstodrink.BeerListActivity" />
         </activity>
     </application>
 

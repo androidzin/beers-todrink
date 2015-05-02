@@ -12,4 +12,7 @@
     <item android:id="@+id/filter_country"
         android:title="@string/filter_country"
         yourapp:showAsAction="never" />
+    <item android:id="@+id/settings_menu"
+        android:title="@string/settings"
+        yourapp:showAsAction="never" />
 </menu>
