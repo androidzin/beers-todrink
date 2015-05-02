@@ -1,0 +1,23 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="true">
+    <item android:drawable="@drawable/speciality_01" android:duration="100" />
+    <item android:drawable="@drawable/speciality_02" android:duration="100" />
+    <item android:drawable="@drawable/speciality_03" android:duration="100" />
+    <item android:drawable="@drawable/speciality_04" android:duration="100" />
+    <item android:drawable="@drawable/speciality_05" android:duration="100" />
+    <item android:drawable="@drawable/speciality_06" android:duration="100" />
+    <item android:drawable="@drawable/speciality_07" android:duration="100" />
+    <item android:drawable="@drawable/speciality_08" android:duration="100" />
+    <item android:drawable="@drawable/speciality_09" android:duration="100" />
+    <item android:drawable="@drawable/speciality_10" android:duration="100" />
+    <item android:drawable="@drawable/speciality_11" android:duration="100" />
+    <item android:drawable="@drawable/speciality_12" android:duration="100" />
+    <item android:drawable="@drawable/speciality_13" android:duration="100" />
+    <item android:drawable="@drawable/speciality_14" android:duration="100" />
+    <item android:drawable="@drawable/speciality_15" android:duration="100" />
+    <item android:drawable="@drawable/speciality_16" android:duration="100" />
+    <item android:drawable="@drawable/speciality_17" android:duration="100" />
+    <item android:drawable="@drawable/speciality_18" android:duration="100" />
+    <item android:drawable="@drawable/speciality_19" android:duration="100" />
+    <item android:drawable="@drawable/speciality_20" android:duration="100" />
+</animation-list>

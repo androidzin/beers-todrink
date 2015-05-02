@@ -7,6 +7,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,25 +34,31 @@ public class BeerDrinkingActivity extends FragmentActivity implements LoaderMana
     TextView beerName;
 
     private String beer;
+    private String beerColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         beer = getIntent().getStringExtra(BeerListActivity.BEER_NAME);
+        beerColor = getIntent().getStringExtra(BeerListActivity.BEER_COLOR);
         getSupportLoaderManager().initLoader(URL_LOADER, null, this);
     }
 
     @AfterViews
     public void setBeerName(){
+
         beerName.setText(beer);
+
     }
 
     @AfterViews
     public void startAnimation(){
+        final int animationId = getResources().getIdentifier("drinking_"+beerColor,
+                "anim", getPackageName());
+        drinkingAnimation.setBackgroundResource(animationId);
         AnimationDrawable animation = (AnimationDrawable) drinkingAnimation.getBackground();
         animation.setOneShot(true);
         animation.start();
-        int duration = animation.getDuration(0);
         showStatus();
     }
 

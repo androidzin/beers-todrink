@@ -40,6 +40,8 @@ public class BeerListActivity extends ActionBarActivity
         BeerDialogConfirmation.BeerDialogConfirmartionListener  {
 
     static final String BEER_NAME = "beer_name";
+    static final String BEER_COLOR = "beer_color";
+
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -120,6 +122,7 @@ public class BeerListActivity extends ActionBarActivity
     private void showAnimation(Beer beer) {
         Intent i = new Intent(getApplicationContext(), BeerDrinkingActivity_.class);
         i.putExtra(BEER_NAME, beer.getName());
+        i.putExtra(BEER_COLOR, beer.getColor());
         startActivity(i);
     }
 

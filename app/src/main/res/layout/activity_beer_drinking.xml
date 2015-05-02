@@ -25,7 +25,7 @@
             android:id="@+id/drinking_animation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@anim/drinking" />
+            android:background="@anim/drinking_blond" />
 
         <TextView
             android:id="@+id/beer_name"

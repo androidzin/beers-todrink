@@ -1,0 +1,23 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="true">
+    <item android:drawable="@drawable/dark_01" android:duration="100" />
+    <item android:drawable="@drawable/dark_02" android:duration="100" />
+    <item android:drawable="@drawable/dark_03" android:duration="100" />
+    <item android:drawable="@drawable/dark_04" android:duration="100" />
+    <item android:drawable="@drawable/dark_05" android:duration="100" />
+    <item android:drawable="@drawable/dark_06" android:duration="100" />
+    <item android:drawable="@drawable/dark_07" android:duration="100" />
+    <item android:drawable="@drawable/dark_08" android:duration="100" />
+    <item android:drawable="@drawable/dark_09" android:duration="100" />
+    <item android:drawable="@drawable/dark_10" android:duration="100" />
+    <item android:drawable="@drawable/dark_11" android:duration="100" />
+    <item android:drawable="@drawable/dark_12" android:duration="100" />
+    <item android:drawable="@drawable/dark_13" android:duration="100" />
+    <item android:drawable="@drawable/dark_14" android:duration="100" />
+    <item android:drawable="@drawable/dark_15" android:duration="100" />
+    <item android:drawable="@drawable/dark_16" android:duration="100" />
+    <item android:drawable="@drawable/dark_17" android:duration="100" />
+    <item android:drawable="@drawable/dark_18" android:duration="100" />
+    <item android:drawable="@drawable/dark_19" android:duration="100" />
+    <item android:drawable="@drawable/dark_20" android:duration="100" />
+</animation-list>
