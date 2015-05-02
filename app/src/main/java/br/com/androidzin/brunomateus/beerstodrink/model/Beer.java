@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import br.com.androidzin.brunomateus.beerstodrink.util.TemperatureConversor;
+
 import static br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract.BeerColumns;
 
 /**
@@ -11,9 +13,11 @@ import static br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract.B
  */
 public class Beer {
 
+    public static final String ºF = " ºF";
+    public static final String ºC = " ºC";
     private int id;
     private String name;
-    private String temperatureToDrink;
+    private String rawTemperature;
     private String country;
     private String abv;
     private String releaseDate;
@@ -29,7 +33,7 @@ public class Beer {
                  String releaseDate, String color) {
         this.drinked = false;
         this.name = name;
-        this.temperatureToDrink = temperatureToDrink;
+        this.rawTemperature = temperatureToDrink;
         this.country = country;
         this.abv = String.valueOf(abv).concat("%");
         this.releaseDate = releaseDate;
@@ -44,8 +48,36 @@ public class Beer {
         return name;
     }
 
+    private String getRawTemperature(){
+        return rawTemperature;
+    }
+
     public String getTemperatureToDrink() {
-        return temperatureToDrink;
+        String[] temperatures = getRawTemperature().split("-");
+        if(temperatures.length > 2){
+            throw new RuntimeException("Wrong temperature values, more than 2");
+        }
+
+        return getCelsius(temperatures);
+    }
+
+    protected String getCelsius(String[] temps){
+        if (temps.length == 1){
+            return temps[0]  + ºC;
+        } else{
+            return temps[0].trim() + "-" + temps[1].trim() + ºC;
+        }
+    }
+
+    protected String getFahrenheit(String[] celsiusTemps){
+
+        if (celsiusTemps.length == 1){
+            return String.valueOf(
+                    TemperatureConversor.celsiusToFarenheit(Float.parseFloat(celsiusTemps[0]))) + ºF;
+        } else{
+            return TemperatureConversor.celsiusToFarenheit(Float.parseFloat(celsiusTemps[0].trim())) + "-" +
+                   TemperatureConversor.celsiusToFarenheit(Float.parseFloat(celsiusTemps[1].trim())) + ºF;
+        }
     }
 
     public String getCountry(Context context) {
@@ -93,7 +125,7 @@ public class Beer {
         values.put(BeerColumns.BEER_NAME, getName());
         values.put(BeerColumns.BEER_COUNTRY, getCountry());
         values.put(BeerColumns.BEER_ABV, getAbv());
-        values.put(BeerColumns.BEER_TEMPERATURE_TO_DRINK, getTemperatureToDrink());
+        values.put(BeerColumns.BEER_TEMPERATURE_TO_DRINK, getRawTemperature());
         values.put(BeerColumns.BEER_DRANK, isDrinkedInt());
         values.put(BeerColumns.BEER_RELEASE_DATE, getReleaseDate());
         values.put(BeerColumns.BEER_COLOR, getColor());
