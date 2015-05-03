@@ -13,8 +13,6 @@ import static br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract.B
  */
 public class Beer {
 
-    public static final String ºF = " ºF";
-    public static final String ºC = " ºC";
     private int id;
     private String name;
     private String rawTemperature;
@@ -48,36 +46,8 @@ public class Beer {
         return name;
     }
 
-    private String getRawTemperature(){
+    public String getRawTemperature(){
         return rawTemperature;
-    }
-
-    public String getTemperatureToDrink() {
-        String[] temperatures = getRawTemperature().split("-");
-        if(temperatures.length > 2){
-            throw new RuntimeException("Wrong temperature values, more than 2");
-        }
-
-        return getCelsius(temperatures);
-    }
-
-    protected String getCelsius(String[] temps){
-        if (temps.length == 1){
-            return temps[0]  + ºC;
-        } else{
-            return temps[0].trim() + "-" + temps[1].trim() + ºC;
-        }
-    }
-
-    protected String getFahrenheit(String[] celsiusTemps){
-
-        if (celsiusTemps.length == 1){
-            return String.valueOf(
-                    TemperatureConversor.celsiusToFarenheit(Float.parseFloat(celsiusTemps[0]))) + ºF;
-        } else{
-            return TemperatureConversor.celsiusToFarenheit(Float.parseFloat(celsiusTemps[0].trim())) + "-" +
-                   TemperatureConversor.celsiusToFarenheit(Float.parseFloat(celsiusTemps[1].trim())) + ºF;
-        }
     }
 
     public String getCountry(Context context) {

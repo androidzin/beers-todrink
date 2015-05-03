@@ -29,6 +29,7 @@ import br.com.androidzin.brunomateus.beerstodrink.adapter.BeerAdapter;
 import br.com.androidzin.brunomateus.beerstodrink.model.Beer;
 import br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract;
 import br.com.androidzin.brunomateus.beerstodrink.util.FilterBuilder;
+import br.com.androidzin.brunomateus.beerstodrink.util.TemperatureConversor;
 
 import static br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract.BeerColumns;
 
@@ -64,6 +65,8 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
     RecyclerView mRecyclerView;
 
     private BeerAdapter mAdapter;
+
+    private TemperatureConversor.MetricSystems current;
 
     /**
      * The fragment's current callback object, which is notified of list item
@@ -151,6 +154,18 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        TemperatureConversor.MetricSystems newOne = TemperatureConversor.verifyCurrentTemperatureSystem(getActivity());
+        if(current != newOne){
+            current = newOne;
+            mRecyclerView.setAdapter(null);
+            mRecyclerView.setAdapter(mAdapter);
+        }
+
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         // Inflate the options menu from XML
@@ -227,6 +242,7 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
         super.onActivityCreated(savedInstanceState);
 
         getLoaderManager().initLoader(URL_LOADER, null, this);
+        current = TemperatureConversor.verifyCurrentTemperatureSystem(getActivity());
     }
 
     @AfterViews

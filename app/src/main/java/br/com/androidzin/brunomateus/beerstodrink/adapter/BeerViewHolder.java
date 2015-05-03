@@ -1,9 +1,11 @@
 package br.com.androidzin.brunomateus.beerstodrink.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,12 +15,16 @@ import java.util.HashMap;
 
 import br.com.androidzin.brunomateus.beerstodrink.R;
 import br.com.androidzin.brunomateus.beerstodrink.model.Beer;
+import br.com.androidzin.brunomateus.beerstodrink.util.TemperatureConversor;
+
+import static br.com.androidzin.brunomateus.beerstodrink.util.TemperatureConversor.MetricSystems;
 
 /**
  * Created by bruno on 18/12/14.
  */
 public class BeerViewHolder extends RecyclerView.ViewHolder {
 
+    private MetricSystems currentSystem;
     private TextView beerName;
     private TextView beerReleaseDate;
     private TextView beerCountry;
@@ -61,7 +67,12 @@ public class BeerViewHolder extends RecyclerView.ViewHolder {
                 return true;
             }
         });
+
+        currentSystem = TemperatureConversor.verifyCurrentTemperatureSystem(mContext);
+
     }
+
+
 
     private void setBeerName(String beerName) {
         this.beerName.setText(beerName);
@@ -104,7 +115,7 @@ public class BeerViewHolder extends RecyclerView.ViewHolder {
 
         setBeerTemperatureToDrink(
                 resources.getString(R.string.label_temperature_to_drink) +
-                beer.getTemperatureToDrink()
+                TemperatureConversor.getTemperatureToDrink(beer.getRawTemperature(), currentSystem)
         );
 
         setDrinked();
