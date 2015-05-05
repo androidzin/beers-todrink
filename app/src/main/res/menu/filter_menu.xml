@@ -12,6 +12,9 @@
     <item android:id="@+id/filter_country"
         android:title="@string/filter_country"
         yourapp:showAsAction="never" />
+    <item android:id="@+id/beer_statistics_menu"
+        android:title="@string/statistics"
+        yourapp:showAsAction="never" />
     <item android:id="@+id/settings_menu"
         android:title="@string/settings"
         yourapp:showAsAction="never" />

@@ -198,6 +198,7 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i = null;
         switch(item.getItemId()){
             case R.id.filter_country:
                 showFilterByCountryDialog();
@@ -206,8 +207,12 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
                 updateFilterDrink();
                 updateDrinkFilterMenu(item);
                 break;
+            case R.id.beer_statistics_menu:
+                i = new Intent(getActivity(), StatisticsActivity.class);
+                startActivity(i);
+                break;
             case R.id.settings_menu:
-                Intent i = new Intent(getActivity(), SettingsActivity_.class);
+                i = new Intent(getActivity(), SettingsActivity_.class);
                 if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB){
                     i.setClass(getActivity(), SettingsOldActivity.class);
                 }

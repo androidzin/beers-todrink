@@ -59,7 +59,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.androidzin.brunomateus.beerstodrink.BeerListActivity" />
         </activity>
-        
+        <activity
+            android:name=".StatisticsActivity"
+            android:label="@string/statistics"
+            android:parentActivityName=".BeerListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.androidzin.brunomateus.beerstodrink.BeerListActivity" />
+        </activity>
     </application>
 
 </manifest>
