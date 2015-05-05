@@ -49,7 +49,8 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.androidzin.brunomateus.beerstodrink.BeerListActivity" />
-        </activity>/>
+        </activity>
+/>
         <activity
             android:name=".SettingsOldActivity"
             android:label="@string/settings"
@@ -58,6 +59,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.androidzin.brunomateus.beerstodrink.BeerListActivity" />
         </activity>
+        
     </application>
 
 </manifest>
