@@ -11,6 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
@@ -94,7 +95,8 @@ public class BeerFilterCountryDialog extends DialogFragment {
                 checked = new boolean[data.getCount()];
                 int i = 0;
                 while (data.moveToNext()) {
-                    countries[i] = data.getString(0);
+                    countries[i] = getString(getResources().getIdentifier(data.getString(0), "string",
+                    getActivity().getPackageName()));
                     checked[i] = false;
                     i++;
                 }
