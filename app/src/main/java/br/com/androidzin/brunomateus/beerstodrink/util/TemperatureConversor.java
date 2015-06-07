@@ -21,7 +21,7 @@ public class TemperatureConversor {
     public enum MetricSystems {CELSIUS, FAHRENHEIT};
 
     public static String getTemperatureToDrink(String rawTemperatures, MetricSystems current) {
-        String[] temperatures = rawTemperatures.split("-");
+        String[] temperatures = rawTemperatures.split("/");
         if(temperatures.length > 2){
             throw new RuntimeException("Wrong temperature values, more than 2");
         }

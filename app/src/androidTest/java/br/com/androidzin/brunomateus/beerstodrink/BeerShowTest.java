@@ -42,10 +42,13 @@ public class BeerShowTest extends TestCase{
     }
 
     public void testCelsiusInterval(){
-        BeerTest beer = new BeerTest("10-12");
+        BeerTest beer = new BeerTest("10/12");
         assertEquals("10,0-12,0"+ºC, beer.getCelsiusTest());
-        beer = new BeerTest("10 - 12");
-        assertEquals("10,0-12,0"+ºC, beer.getCelsiusTest());
+    }
+
+    public void testCelsiusNegativeInterval(){
+        BeerTest beer = new BeerTest("-2/2");
+        assertEquals("-2,0-2,0"+ºC, beer.getCelsiusTest());
     }
 
     public void testOneTemperatureFahrenheit(){
@@ -54,10 +57,13 @@ public class BeerShowTest extends TestCase{
     }
 
     public void testFahrenheitInterval(){
-        BeerTest beer = new BeerTest("0-100");
+        BeerTest beer = new BeerTest("0/100");
         assertEquals("32,0-212,0"+ºF, beer.getFahrenheitTest());
-        beer = new BeerTest("0 - 100");
-        assertEquals("32,0-212,0"+ºF, beer.getFahrenheitTest());
+    }
+
+    public void testFahrenheitNegativeInterval(){
+        BeerTest beer = new BeerTest("-20/-5");
+        assertEquals("-4,0-23,0"+ºF, beer.getFahrenheitTest());
     }
 
 }
