@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,7 +28,8 @@ public class BeerViewHolder extends RecyclerView.ViewHolder {
     private MetricSystems currentSystem;
     private TextView beerName;
     private TextView beerReleaseDate;
-    private TextView beerCountry;
+    //private TextView beerCountry;
+    private ImageView beerFlag;
     private TextView beerABV;
     private TextView beerTemperatureToDrink;
     private ImageView beerImage;
@@ -40,7 +42,8 @@ public class BeerViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         beerName = (TextView) itemView.findViewById(R.id.beer_name);
         beerReleaseDate = (TextView) itemView.findViewById(R.id.beer_release_date);
-        beerCountry = (TextView) itemView.findViewById(R.id.beer_country);
+        //beerCountry = (TextView) itemView.findViewById(R.id.beer_country);
+        beerFlag = (ImageView) itemView.findViewById(R.id.beer_country);
         beerABV = (TextView) itemView.findViewById(R.id.beer_abv);
         beerTemperatureToDrink = (TextView) itemView.findViewById(R.id.beer_temperature_to_drink);
         beerImage = (ImageView) itemView.findViewById(R.id.beer_image);
@@ -82,8 +85,16 @@ public class BeerViewHolder extends RecyclerView.ViewHolder {
         this.beerReleaseDate.setText(releaseDate);
     }
 
-    private void setBeerCountry(String country){
+    /*private void setBeerCountry(String country){
         this.beerCountry.setText(country);
+    }*/
+
+    private void setBeerFlag(String country){
+        final int id = mContext.getResources().getIdentifier(country+"_small",
+                "drawable",mContext.getPackageName());
+        if(id != 0) {
+            beerFlag.setImageResource(id);
+        }
     }
 
     private void setBeerABV(String beerABV) {
@@ -103,10 +114,13 @@ public class BeerViewHolder extends RecyclerView.ViewHolder {
                 resources.getString(R.string.label_release_date) +
                 beer.getReleaseDate()
         );
+        /*
         setBeerCountry(
                 resources.getString(R.string.label_country) +
                 beer.getCountry()
-        );
+        );*/
+
+        setBeerFlag(beer.getCountry());
 
         setBeerABV(
                 resources.getString(R.string.label_abv) +
@@ -126,21 +140,21 @@ public class BeerViewHolder extends RecyclerView.ViewHolder {
     }
 
     private static Drawable getIcon(Context context, Beer beer) {
-        String beerImageStringId = null;
+        String beerColorImageId = null;
         if(beer.isDrinked()){
-            beerImageStringId = "empty";
+            beerColorImageId = "empty";
         } else {
-            beerImageStringId = beer.getColor();
+            beerColorImageId = beer.getColor();
             //TODO: Remover
-            if(beerImageStringId.equals("0")) beerImageStringId = "beer_sample";
+            if(beerColorImageId.equals("0")) beerColorImageId = "beer_sample";
         }
-
-        Drawable beerIcon = beerImages.get(beerImageStringId);
+        Log.d("icon", beer.getName() + beerColorImageId);
+        Drawable beerIcon = beerImages.get(beerColorImageId);
         if(beerIcon == null){
-            final int imageIdentifier = context.getResources().getIdentifier(beerImageStringId,
+            final int imageIdentifier = context.getResources().getIdentifier(beerColorImageId,
                     "drawable", context.getPackageName());
             beerIcon = context.getResources().getDrawable(imageIdentifier);
-            beerImages.put(beerImageStringId, beerIcon);
+            beerImages.put(beerColorImageId, beerIcon);
         }
         return beerIcon;
 

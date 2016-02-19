@@ -13,6 +13,7 @@
         android:layout_margin="@dimen/card_margin"
         android:descendantFocusability="blocksDescendants">
 
+
             <ImageView
                 android:id="@+id/beer_image"
                 android:layout_width="wrap_content"
@@ -20,6 +21,13 @@
                 android:layout_alignParentRight="true"
                 android:src="@drawable/beer_sample"
         />
+        <ImageView
+            android:id="@+id/beer_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            />
 
             <TextView
                 android:id="@+id/beer_name"
@@ -39,19 +47,10 @@
                 android:maxWidth="@dimen/list_item_max_width"/>
 
             <TextView
-                android:id="@+id/beer_country"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/beer_release_date"
-                android:layout_alignParentLeft="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:maxWidth="@dimen/list_item_max_width"/>
-
-            <TextView
                 android:id="@+id/beer_abv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/beer_country"
+                android:layout_below="@id/beer_release_date"
                 android:layout_alignParentLeft="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:maxWidth="@dimen/list_item_max_width"/>
