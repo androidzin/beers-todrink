@@ -54,7 +54,7 @@ public class BeerFilterCountryDialog extends DialogFragment {
                 ArrayList<String> coutriesList = new ArrayList<String>();
                 for (int i = 0; i < checked.length; i++) {
                     if (checked[i]) {
-                        coutriesList.add(countries[i]);
+                        coutriesList.add(countries[i].toLowerCase().replace(" ", "_"));
                     }
                 }
                 Bundle queryBundle = new Bundle();
