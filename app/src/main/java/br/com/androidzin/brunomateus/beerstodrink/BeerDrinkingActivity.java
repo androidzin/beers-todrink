@@ -56,10 +56,15 @@ public class BeerDrinkingActivity extends FragmentActivity implements LoaderMana
         final int animationId = getResources().getIdentifier("drinking_"+beerColor,
                 "anim", getPackageName());
         drinkingAnimation.setBackgroundResource(animationId);
-        AnimationDrawable animation = (AnimationDrawable) drinkingAnimation.getBackground();
-        animation.setOneShot(true);
-        animation.start();
-        showStatus();
+        drinkingAnimation.post(new Runnable() {
+            @Override
+            public void run() {
+                AnimationDrawable animation = (AnimationDrawable) drinkingAnimation.getBackground();
+                animation.setOneShot(true);
+                animation.start();
+                showStatus();
+            }
+        });
     }
 
     @UiThread(delay=2000)
