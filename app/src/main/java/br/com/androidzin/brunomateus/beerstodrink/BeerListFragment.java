@@ -226,7 +226,7 @@ public class BeerListFragment extends Fragment implements LoaderManager.LoaderCa
         if(FilterBuilder.showAll()){
             item.setTitle(getString(R.string.show_all));
         } else {
-            item.setTitle(getString(R.string.not_drank));
+            item.setTitle(getString(R.string.to_drink));
         }
     }
 

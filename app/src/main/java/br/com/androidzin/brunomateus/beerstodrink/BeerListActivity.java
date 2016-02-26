@@ -91,10 +91,8 @@ public class BeerListActivity extends ActionBarActivity
 
     @Override
     public void onBeerSeleteced(String beerId) {
+        /* Only on next version
         if (mTwoPane) {
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putString(BeerDetailFragment.BEER_ID, beerId);
             BeerDetailFragment fragment = new BeerDetailFragment_();
@@ -104,12 +102,11 @@ public class BeerListActivity extends ActionBarActivity
                     .commit();
 
         } else {
-            // In single-pane mode, simply start the detail activity
-            // for the selected item ID.
             Intent detailIntent = new Intent(this, BeerDetailActivity.class);
             detailIntent.putExtra(BeerDetailFragment.BEER_ID, beerId);
             startActivity(detailIntent);
         }
+        */
     }
 
     @Override
