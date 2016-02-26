@@ -7,6 +7,8 @@
     <!-- TESTES -->
     <string name="beer_about">Duvel is a natural beer with a subtle bitterness, a refined flavour and a distinctive hop character. The unique brewing process, which takes about 90 days, guarantees a pure character, delicate effervescence and a pleasant sweet taste of alcohol.</string>
     <string name="drink">Drink</string>
+    <string name="drank">Drank</string>
+    <string name="not_drank">Not Drank</string>
 
     <!-- Labels -->
     <string name="label_country">Country: </string>
@@ -22,7 +24,7 @@
     <string name="clear">Clear</string>
     <string name="filter">Filter</string>
     <string name="show_all">Show all</string>
-    <string name="not_drank">Show to drink</string>
+    <string name="to_drink">Show to drink</string>
 
     <plurals name="one_more_congratulations">
         <item quantity="one">Congratulations!!! \n Now there are just 1 beer.</item>
@@ -43,6 +45,7 @@
     <string name="statistics">Statistics</string>
 
     <!-- Countries -->
+    <string name="all_contries">All countries</string>
     <string name="canada">Canada</string>
     <string name="brazil">Brazil</string>
     <string name="isle_of_man">Isle Of Man</string>

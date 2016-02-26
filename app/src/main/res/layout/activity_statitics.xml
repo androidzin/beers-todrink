@@ -6,7 +6,7 @@
     tools:context="br.com.androidzin.brunomateus.beerstodrink.StatisticsActivity"
 >
     <fragment
-        android:name="br.com.androidzin.brunomateus.beerstodrink.StatisticsFragment"
+        android:name="br.com.androidzin.brunomateus.beerstodrink.StatisticsFragment_"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

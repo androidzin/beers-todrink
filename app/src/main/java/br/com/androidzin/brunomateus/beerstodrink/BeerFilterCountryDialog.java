@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import java.util.ArrayList;
 
 import br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract;
+import br.com.androidzin.brunomateus.beerstodrink.util.InformationFromResource;
 
 /**
  * Created by bruno on 26/12/14.
@@ -95,8 +96,7 @@ public class BeerFilterCountryDialog extends DialogFragment {
                 checked = new boolean[data.getCount()];
                 int i = 0;
                 while (data.moveToNext()) {
-                    countries[i] = getString(getResources().getIdentifier(data.getString(0), "string",
-                    getActivity().getPackageName()));
+                    countries[i] = InformationFromResource.getBeerCountry(getActivity(), data.getString(0));
                     checked[i] = false;
                     i++;
                 }
