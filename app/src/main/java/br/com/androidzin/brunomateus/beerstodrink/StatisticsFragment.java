@@ -1,7 +1,6 @@
 package br.com.androidzin.brunomateus.beerstodrink;
 
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,13 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -25,7 +22,6 @@ import org.eazegraph.lib.models.PieModel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.TreeMap;
 
 import br.com.androidzin.brunomateus.beerstodrink.model.Statistics;
 import br.com.androidzin.brunomateus.beerstodrink.provider.BeerContract;
@@ -40,9 +36,6 @@ public class StatisticsFragment extends Fragment implements LoaderManager.Loader
 
     @ViewById(R.id.piechart)
     PieChart mPieChart;
-
-    @ViewById(R.id.char_label)
-    TextView mCharLabel;
 
     @ViewById(R.id.chart_options)
     Spinner chartOptions;
