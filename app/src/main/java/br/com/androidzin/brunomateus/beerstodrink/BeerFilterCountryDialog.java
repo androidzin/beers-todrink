@@ -54,8 +54,10 @@ public class BeerFilterCountryDialog extends DialogFragment {
                     }
                 }
                 Bundle queryBundle = new Bundle();
-                queryBundle.putStringArrayList(BeerContract.BeerColumns.BEER_COUNTRY,
-                        coutriesList);
+                if(!coutriesList.isEmpty()) {
+                    queryBundle.putStringArrayList(BeerContract.BeerColumns.BEER_COUNTRY,
+                            coutriesList);
+                }
                 listener.onFilter(queryBundle);
             }
         }).setNegativeButton(getActivity().getString(R.string.clear),
