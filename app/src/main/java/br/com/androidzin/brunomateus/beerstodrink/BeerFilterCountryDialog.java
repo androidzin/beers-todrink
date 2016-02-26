@@ -1,18 +1,13 @@
 package br.com.androidzin.brunomateus.beerstodrink;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.support.v7.app.AlertDialog;
 
 import java.util.ArrayList;
 
@@ -40,7 +35,7 @@ public class BeerFilterCountryDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder b = new AlertDialog.Builder(getActivity(), R.style.AppTheme);
         getCountries();
         b.setTitle(R.string.filter_country)
                 .setMultiChoiceItems(countries, checked, new DialogInterface.OnMultiChoiceClickListener() {

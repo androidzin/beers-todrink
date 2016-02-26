@@ -5,7 +5,9 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/amber</item>
         <item name="colorPrimaryDark">@color/amber_dark</item>
-        <item name="colorAccent">@color/amber_light</item>
+        <item name="colorAccent">#FF9800</item>
+        <item name="android:textColorPrimary">#212121</item>
+        <item name="android:textColorSecondary">#727272</item>item>
     </style>
 
 </resources>
