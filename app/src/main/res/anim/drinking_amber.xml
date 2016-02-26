@@ -17,7 +17,9 @@
     <item android:drawable="@drawable/amber_15" android:duration="100" />
     <item android:drawable="@drawable/amber_16" android:duration="100" />
     <item android:drawable="@drawable/amber_17" android:duration="100" />
+    <!--
     <item android:drawable="@drawable/amber_18" android:duration="100" />
     <item android:drawable="@drawable/amber_19" android:duration="100" />
     <item android:drawable="@drawable/amber_20" android:duration="100" />
+    -->
 </animation-list>

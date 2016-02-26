@@ -17,7 +17,9 @@
     <item android:drawable="@drawable/speciality_15" android:duration="100" />
     <item android:drawable="@drawable/speciality_16" android:duration="100" />
     <item android:drawable="@drawable/speciality_17" android:duration="100" />
+    <!--
     <item android:drawable="@drawable/speciality_18" android:duration="100" />
     <item android:drawable="@drawable/speciality_19" android:duration="100" />
     <item android:drawable="@drawable/speciality_20" android:duration="100" />
+    -->
 </animation-list>

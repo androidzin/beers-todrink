@@ -21,11 +21,18 @@
             android:visibility="invisible" />
 
 
-        <ImageView
-            android:id="@+id/drinking_animation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@anim/drinking_blond" />
+        <FrameLayout
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/circle">
+            <ImageView
+                android:id="@+id/drinking_animation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@anim/drinking_blond"
+                android:layout_gravity="center_horizontal"
+                />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/beer_name"
